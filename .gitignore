@@ -109,10 +109,12 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/themes/twentyeighteen
 /wp-content/themes/twentynineteen
 /wp-content/themes/twentytwenty
+
 /wp-content/themes/index.php
 /wp-content/plugins/index.php
 /wp-content/plugins/akismet*
 
+/wp-content/themes/wordpress-blank
 
 dist
 node_modules
