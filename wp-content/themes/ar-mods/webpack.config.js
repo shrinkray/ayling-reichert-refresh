@@ -62,7 +62,7 @@ module.exports = {
             files: ['*.css', '*.js', '*.php'],
             host: 'localhost',
             port: 3000,
-            proxy: 'http://wordpress.local/'
+            proxy: 'https://ayling-reichert.local/'
         }),
     ],
 
