@@ -32,16 +32,38 @@
     /* ======================================================================
         LOAD ASSETS (CSS, JS)
     ====================================================================== */
-    function arTheme_styles() {
-        // Normalize is loaded in Bootstrap and both are imported into the style.css via Sass
-        wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
-        wp_enqueue_style('arThemeCss'); // Enqueue it!
+    function enqueue_style_after_wc() {
+
+        // Set this style below others
+
+        $parent_style = 'arTheme_parent_style';
+        $parent_base_dir = 'Workz';
+
+        wp_enqueue_style( $parent_style,
+            get_template_directory_uri() . '/style.css',
+            array(),
+            wp_get_theme( $parent_base_dir ) ? wp_get_theme( $parent_base_dir )->get('Version') : ''
+        );
+
+//        wp_enqueue_style( $parent_style . '_child_style',
+//            get_stylesheet_directory_uri() . '/style.css',
+//            array( $parent_style ),
+//            wp_get_theme()->get('Version')
+//        );
+
+        function arTheme_styles() {
+            // Normalize is loaded in Bootstrap and both are imported into the style.css via Sass
+            wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
+            wp_enqueue_style('arThemeCss'); // Enqueue it!
+        }
     }
+    add_action('wp_enqueue_scripts', 'enqueue_style_after_wc', 10 );
 
     // Remove 'text/css' from our enqueued stylesheet
     function arTheme_styles_remove($tag) {
         return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
     }
+
 
     // Load theme js
     function arTheme_scripts() {
