@@ -15,8 +15,8 @@
 /**
  * Loads parent and child themes' style.css
  */
-function orbisius_ct_ar_mods_child_theme_enqueue_styles() {
-    $parent_style = 'orbisius_ct_ar_mods_parent_style';
+function arTheme_child_theme_enqueue_styles() {
+    $parent_style = 'arTheme_parent_style';
     $parent_base_dir = 'Workz';
 
     wp_enqueue_style( $parent_style,
@@ -32,4 +32,4 @@ function orbisius_ct_ar_mods_child_theme_enqueue_styles() {
     );
 }
 
-add_action( 'wp_enqueue_scripts', 'orbisius_ct_ar_mods_child_theme_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'arTheme_child_theme_enqueue_styles' );

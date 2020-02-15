@@ -1,15 +1,14 @@
 <?php
     /* ======================================================================
         EXTERNAL MODULES AND FILES BELOW
+    Note: commenting out for now, not sure we need this for the Workz theme
 	====================================================================== */
-    require get_parent_theme_file_path('inc/metabox/metabox.php');
+    //require get_parent_theme_file_path('inc/metabox/metabox.php');
 
     /* ======================================================================
         THEME SETTINGS
 	====================================================================== */
-    if (!isset($content_width)) {
-        $content_width = 900;
-    }
+
 
     if (function_exists('add_theme_support')) {
 
@@ -27,44 +26,46 @@
         add_theme_support('automatic-feed-links');
 
         // Localisation Support
-        load_theme_textdomain('wpblank', get_template_directory() . '/languages');
+        load_theme_textdomain('ar', get_stylesheet_directory() . '/languages');
     }
 
     /* ======================================================================
         LOAD ASSETS (CSS, JS)
     ====================================================================== */
-    function wpblank_styles() {
+    function arTheme_styles() {
         // Normalize is loaded in Bootstrap and both are imported into the style.css via Sass
-        wp_register_style('wpblankCss', get_template_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
-        wp_enqueue_style('wpblankCss'); // Enqueue it!
+        wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('arThemeCss'); // Enqueue it!
     }
 
     // Remove 'text/css' from our enqueued stylesheet
-    function wpblank_styles_remove($tag) {
+    function arTheme_styles_remove($tag) {
         return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
     }
 
     // Load theme js
-    function wpblank_scripts() {
+    function arTheme_scripts() {
         if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
-            wp_register_script('wpblankJs', get_template_directory_uri() . '/dist/main.bundle.js', array('jquery'), '1.0.0', true);
-            wp_enqueue_script( array('wpblankJs') );
+            $ver =  time();
+            wp_register_script('arThemeJs', get_stylesheet_directory_uri() . '/dist/main.bundle.js', array('jquery'), $ver, true);
+            wp_enqueue_script( array('arThemeJs') );
 
         }
     }
 
     // Load conditional scripts
-    function wpblank_conditional_scripts() {
+    function arTheme_conditional_scripts() {
         if (is_page('pagenamehere')) {
-            wp_register_script('scriptname', get_template_directory_uri() . '/js/scriptname.js', array('jquery'), '1.0.0');
+            $ver =  time();
+            wp_register_script('scriptname', get_stylesheet_directory_uri() . '/js/scriptname.js', array('jquery'), $ver);
             wp_enqueue_script('scriptname'); // Enqueue it!
         }
     }
 
     // Async scripts
-    function wpblank_add_script_tag_attributes($tag, $handle) {
+    function arTheme_add_script_tag_attributes($tag, $handle) {
         switch ($handle) {
-            case ('wpblankJs'):
+            case ('arThemeJs'):
                 return str_replace( ' src', ' async="async" src', $tag );
             break;
 
@@ -86,13 +87,13 @@
     }
 
     // Remove all query strings
-    function wpblank_script_version($src){
+    function arTheme_script_version($src){
         $parts = explode('?ver', $src);
         return $parts[0];
     }
 
     // Remove jQuery migrate
-    function wpblank_remove_jquery_migrate($scripts) {
+    function arTheme_remove_jquery_migrate($scripts) {
         if (!is_admin() && isset($scripts->registered['jquery'])) {
             $script = $scripts->registered['jquery'];
 
@@ -104,68 +105,10 @@
         }
     }
 
-    /* ======================================================================
-        CUSTOM MENU WALKER TO GET AN PROPER BOOTSTRAP MENU
-	====================================================================== */
-    // Register Custom Navigation Walker
-    require_once('inc/class-wp-bootstrap-navwalker.php');
 
-    // WP Bootstrap Sass navigation
-    function wpblank_nav() {
-        wp_nav_menu(
-        array(
-            'theme_location'  => 'header-menu',
-            'menu'            => '',
-            'container'       => 'nav',
-            'container_class' => 'collapse navbar-collapse',
-            'container_id'    => '',
-            'menu_class'      => 'navbar-nav',
-            'menu_id'         => '',
-            'echo'            => true,
-            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-            'before'          => '',
-            'after'           => '',
-            'link_before'     => '',
-            'link_after'      => '',
-            'depth'           => 2,
-            'walker'          => new WP_Bootstrap_Navwalker()
-            )
-        );
-    }
-
-    function wpblank_nav_extra() {
-        wp_nav_menu(
-        array(
-            'theme_location'  => 'extra-menu',
-            'menu'            => '',
-            'container'       => 'div',
-            'container_class' => '',
-            'container_id'    => '',
-            'menu_class'      => 'navbar-nav ml-auto',
-            'menu_id'         => '',
-            'echo'            => true,
-            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-            'before'          => '',
-            'after'           => '',
-            'link_before'     => '',
-            'link_after'      => '',
-            'depth'           => 1,
-            'walker'          => new WP_Bootstrap_Navwalker()
-            )
-        );
-    }
-
-    // Register WP Bootstrap Sass Navigation
-    function wpblank_register_menu() {
-        register_nav_menus(array( // Using array to specify more menus if needed
-            'header-menu' => __('Header Menu', 'wpblank'), // Main Navigation
-            'sidebar-menu' => __('Sidebar Menu', 'wpblank'), // Sidebar Navigation
-            'extra-menu' => __('Extra Menu', 'wpblank') // Extra Navigation if needed (duplicate as many as you need!)
-        ));
-    }
 
     // Remove the <div> surrounding the dynamic navigation to cleanup markup
-    function wpblank_nav_menu_args($args = '') {
+    function arTheme_nav_menu_args($args = '') {
         $args['container'] = false;
         return $args;
     }
@@ -175,7 +118,7 @@
         return is_array($var) ? array() : '';
     }
 
-    function wpblank_widgets_init() {
+    function arTheme_widgets_init() {
         register_sidebar(
             array(
                 'name'          => 'Footer column 1',
@@ -214,7 +157,7 @@
     /* ======================================================================
         ADD SLUG TO BODY CLASS
 	====================================================================== */
-    function wpblank_add_slug_to_body_class($classes) {
+    function arTheme_add_slug_to_body_class($classes) {
         global $post;
         if (is_home()) {
             $key = array_search('blog', $classes);
@@ -233,25 +176,25 @@
     /* ======================================================================
         REMOVE ADMIN BAR
 	====================================================================== */
-    function wpblank_remove_admin_bar() {
+    function arTheme_remove_admin_bar() {
         return false;
     }
 
     /* ======================================================================
         CUSTOM EXCERPTS
 	====================================================================== */
-    // Create 20 Word Callback for Index page Excerpts, call using wpblank_excerpt('wpblank_index');
-    function wpblank_index($length) {
+    // Create 20 Word Callback for Index page Excerpts, call using arTheme_excerpt('arTheme_index');
+    function arTheme_index($length) {
         return 20;
     }
 
-    // Create 40 Word Callback for Custom Post Excerpts, call using wpblank_excerpt('wpblank_custom_post');
-    function wpblank_custom_post($length) {
+    // Create 40 Word Callback for Custom Post Excerpts, call using arTheme_excerpt('arTheme_custom_post');
+    function arTheme_custom_post($length) {
         return 40;
     }
 
     // Create the Custom Excerpts callback
-    function wpblank_excerpt($length_callback = '', $more_callback = '') {
+    function arTheme_excerpt($length_callback = '', $more_callback = '') {
         global $post;
         if (function_exists($length_callback)) {
             add_filter('excerpt_length', $length_callback);
@@ -270,7 +213,7 @@
         CUSTOM EXCERPTS
         Pagination for paged posts, Page 1, Page 2, Page 3, with Next and Previous Links, No plugin
 	====================================================================== */
-    function wpblank_pagination() {
+    function arTheme_pagination() {
         global $wp_query;
         $big = 999999999;
         $links = paginate_links(array(
@@ -291,7 +234,7 @@
     /* ======================================================================
         ENABLE THREADED COMMENTS
 	====================================================================== */
-    function wpblank_enable_threaded_comments() {
+    function arTheme_enable_threaded_comments() {
         if (!is_admin()) {
             if (is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
                 wp_enqueue_script('comment-reply');
@@ -302,7 +245,7 @@
     /* ======================================================================
         ADD BOOTSTRAP 4 .img-fluid CLASS TO IMAGES INSIDE POST CONTENT
 	====================================================================== */
-    function wpblank_add_class_to_image_in_content($content) {
+    function arTheme_add_class_to_image_in_content($content) {
         $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
         $document = new DOMDocument();
         libxml_use_internal_errors(true);
@@ -318,14 +261,14 @@
     }
 
     // Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
-    function wpblank_remove_thumbnail_dimensions($html) {
+    function arTheme_remove_thumbnail_dimensions($html) {
         $html = preg_replace('/(width|height)=\"\d*\"\s/', "", $html);
         return $html;
     }
 
     // Featured image behaviour on posts and pages
-    if (!function_exists( 'wpblank_featured_image_behaviour')) :
-        function wpblank_featured_image_behaviour() {
+    if (!function_exists( 'arTheme_featured_image_behaviour')) :
+        function arTheme_featured_image_behaviour() {
             $meta = get_post_meta(get_the_ID(), 'theme_options_featured-image-behaviour', true);
             echo $meta;
         }
@@ -334,7 +277,7 @@
     /* ======================================================================
         ADD NATIVE LAZYLOAD SUPPORT
 	====================================================================== */
-    function wpblank_lazy_load_attributes($content) {
+    function arTheme_lazy_load_attributes($content) {
         /* Add loading="lazy" to all images filtered by the_content */
         $content = str_replace('<img','<img loading="lazy"', $content);
         /* Add loading="lazy" to all iframes filtered by the_content */
@@ -345,7 +288,7 @@
     /* ======================================================================
         REMOVE RECENT COMMENT STYLES
 	====================================================================== */
-    function wpblank_remove_recent_comments_style() {
+    function arTheme_remove_recent_comments_style() {
         global $wp_widget_factory;
         remove_action('wp_head', array(
             $wp_widget_factory->widgets['WP_Widget_Recent_Comments'],
@@ -368,7 +311,7 @@
         }, 999);
     }
 
-    function wpblank_remove_yoast_json($data){
+    function arTheme_remove_yoast_json($data){
         $data = array();
         return $data;
     }
@@ -377,7 +320,9 @@
         STOP CONTACTFORM7 ADDING OWN STYLES
     ====================================================================== */
     add_filter('wpcf7_form_elements', function($content) {
-        $content = preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^\>]*>(.*)<\/\1>/i', '\2', $content);
+        $content = preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^\>]*>(.*)<\/\1>/i',
+            '\2',
+            $content);
         return $content;
     });
 
@@ -385,15 +330,15 @@
         ACTIONS AND CLEANING
 	====================================================================== */
     // Add Actions
-    add_action('wp_enqueue_scripts', 'wpblank_styles'); // Add Theme Stylesheet
-    add_action('init', 'wpblank_scripts'); // Add Custom Scripts to wp_head
-    // add_action('wp_print_scripts', 'wpblank_conditional_scripts'); // Add Conditional Page Scripts
-    add_action('wp_default_scripts', 'wpblank_remove_jquery_migrate'); // Remove jQuery migrate
-    add_action('get_header', 'wpblank_enable_threaded_comments'); // Enable Threaded Comments
-    add_action('init', 'wpblank_register_menu'); // Add WP Bootstrap Sass Menu
-    add_action('widgets_init', 'wpblank_widgets_init'); // Register all widget areas
-    add_action('widgets_init', 'wpblank_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
-    add_action('init', 'wpblank_pagination'); // Add our wpblank Pagination
+    add_action('wp_enqueue_scripts', 'arTheme_styles'); // Add Theme Stylesheet
+    add_action('init', 'arTheme_scripts'); // Add Custom Scripts to wp_head
+    // add_action('wp_print_scripts', 'arTheme_conditional_scripts'); // Add Conditional Page Scripts
+    add_action('wp_default_scripts', 'arTheme_remove_jquery_migrate'); // Remove jQuery migrate
+    add_action('get_header', 'arTheme_enable_threaded_comments'); // Enable Threaded Comments
+   // add_action('init', 'arTheme_register_menu'); // Add WP Bootstrap Sass Menu
+    add_action('widgets_init', 'arTheme_widgets_init'); // Register all widget areas
+    add_action('widgets_init', 'arTheme_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
+    add_action('init', 'arTheme_pagination'); // Add our ar Pagination
 
     // Remove Actions
     remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds
@@ -401,39 +346,39 @@
     remove_action('wp_head', 'rsd_link'); // Display the link to the Really Simple Discovery service endpoint, EditURI link
     remove_action('wp_head', 'wlwmanifest_link'); // Display the link to the Windows Live Writer manifest file.
     remove_action('wp_head', 'index_rel_link'); // Index link
-    remove_action('wp_head', 'parent_post_rel_link', 10, 0); // Prev link
-    remove_action('wp_head', 'start_post_rel_link', 10, 0); // Start link
-    remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0); // Display relational links for the posts adjacent to the current post.
+    remove_action('wp_head', 'parent_post_rel_link', 10); // Prev link
+    remove_action('wp_head', 'start_post_rel_link', 10); // Start link
+    remove_action('wp_head', 'adjacent_posts_rel_link', 10); // Display relational links for the posts adjacent to the current post.
     remove_action('wp_head', 'wp_generator'); // Display the XHTML generator that is generated on the wp_head hook, WP version
-    remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+    remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
     remove_action('wp_head', 'rel_canonical');
-    remove_action('wp_head', 'wp_shortlink_wp_head', 10, 0);
+    remove_action('wp_head', 'wp_shortlink_wp_head', 10);
 
     // Add Filters
-    add_filter('script_loader_tag', 'wpblank_add_script_tag_attributes', 10, 2); // Add attributes to CDN script tag
-    // add_filter('avatar_defaults', 'wpblankgravatar'); // Custom Gravatar in Settings > Discussion
-    add_filter('body_class', 'wpblank_add_slug_to_body_class'); // Add slug to body class (Starkers build)
+   // add_filter('script_loader_tag', 'arTheme_add_script_tag_attributes', 10, 2); // Add attributes to CDN script tag
+    // add_filter('avatar_defaults', 'arThemegravatar'); // Custom Gravatar in Settings > Discussion
+    add_filter('body_class', 'arTheme_add_slug_to_body_class'); // Add slug to body class (Starkers build)
     add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
     add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
-    add_filter('wp_nav_menu_args', 'wpblank_nav_menu_args'); // Remove surrounding <div> from WP Navigation
+    add_filter('wp_nav_menu_args', 'arTheme_nav_menu_args'); // Remove surrounding <div> from WP Navigation
     // add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
     // add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected ID (Commented out by default)
     // add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> Page ID's (Commented out by default)
     add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
     add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
     add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
-    // add_filter('excerpt_more', 'wpblank_view_article'); // Add 'View Article' button instead of [...] for Excerpts
-    add_filter('show_admin_bar', 'wpblank_remove_admin_bar'); // Remove Admin bar
-    add_filter('style_loader_tag', 'wpblank_styles_remove'); // Remove 'text/css' from enqueued stylesheet
-    add_filter('post_thumbnail_html', 'wpblank_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
-    add_filter('image_send_to_editor', 'wpblank_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
-    add_filter('the_content', 'wpblank_add_class_to_image_in_content'); // Add .img-fluid class to images in the content
-    add_filter('the_content','wpblank_lazy_load_attributes'); // Native lazyoad images for browsers with lazyload support
-    add_filter('wpseo_json_ld_output', 'wpblank_remove_yoast_json', 10, 1); // Rwmove Yoast spam
+    // add_filter('excerpt_more', 'arTheme_view_article'); // Add 'View Article' button instead of [...] for Excerpts
+    add_filter('show_admin_bar', 'arTheme_remove_admin_bar'); // Remove Admin bar
+    add_filter('style_loader_tag', 'arTheme_styles_remove'); // Remove 'text/css' from enqueued stylesheet
+    add_filter('post_thumbnail_html', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
+    add_filter('image_send_to_editor', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
+    add_filter('the_content', 'arTheme_add_class_to_image_in_content'); // Add .img-fluid class to images in the content
+    add_filter('the_content','arTheme_lazy_load_attributes'); // Native lazyoad images for browsers with lazyload support
+    add_filter('wpseo_json_ld_output', 'arTheme_remove_yoast_json', 10, 1); // Rwmove Yoast spam
     add_filter( 'wpcf7_load_js', '__return_false' ); // Remove contactform7 js if no form on page
     add_filter( 'wpcf7_load_css', '__return_false' ); // Remove contactform7 css if no form on page
-    add_filter('script_loader_src', 'wpblank_script_version', 15, 1); // Remove query strings
-    add_filter('style_loader_src', 'wpblank_script_version', 15, 1); // Remove query strings
+    add_filter('script_loader_src', 'arTheme_script_version', 15, 1); // Remove query strings
+    add_filter('style_loader_src', 'arTheme_script_version', 15, 1); // Remove query strings
 
     // Remove Filters
     remove_filter('the_excerpt', 'wpautop'); // Remove <p> tags from Excerpt altogether
