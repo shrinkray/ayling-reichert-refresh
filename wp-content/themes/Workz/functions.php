@@ -40,8 +40,8 @@ add_action('wp_enqueue_scripts','wpex_theme_scripts_function');
 function wpex_theme_scripts_function() {
 	// CSS
 	wp_enqueue_style('prettyPhoto',get_template_directory_uri() . '/css/prettyPhoto.css');
-	wp_enqueue_style('arvo-g-font', 'http://fonts.googleapis.com/css?family=Arvo:400,700,700italic');
-	wp_enqueue_style('droid-serif-g-font','http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700italic');
+	wp_enqueue_style('arvo-g-font', '//fonts.googleapis.com/css?family=Arvo:400,700,700italic');
+	wp_enqueue_style('droid-serif-g-font','//fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700italic');
 	// Load jQuery
 	wp_enqueue_script('jquery');	
 	// Site wide js
