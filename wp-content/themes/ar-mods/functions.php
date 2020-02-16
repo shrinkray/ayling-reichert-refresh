@@ -53,7 +53,7 @@
 
         function arTheme_styles() {
             // Normalize is loaded in Bootstrap and both are imported into the style.css via Sass
-            wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
+            wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/main.style.css', array(), '1.0.0', 'all');
             wp_enqueue_style('arThemeCss'); // Enqueue it!
         }
     }
