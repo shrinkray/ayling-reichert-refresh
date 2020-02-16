@@ -198,9 +198,9 @@
     /* ======================================================================
         REMOVE ADMIN BAR
 	====================================================================== */
-    function arTheme_remove_admin_bar() {
-        return false;
-    }
+//    function arTheme_remove_admin_bar() {
+//        return false;
+//    }
 
     /* ======================================================================
         CUSTOM EXCERPTS
@@ -267,20 +267,44 @@
     /* ======================================================================
         ADD BOOTSTRAP 4 .img-fluid CLASS TO IMAGES INSIDE POST CONTENT
 	====================================================================== */
-    function arTheme_add_class_to_image_in_content($content) {
-        $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
-        $document = new DOMDocument();
-        libxml_use_internal_errors(true);
-        $document->loadHTML(utf8_decode($content));
 
-        $imgs = $document->getElementsByTagName('img');
-        foreach ($imgs as $img) {
-            $img->setAttribute('class','img-fluid');
-        }
+function arTheme_add_img_post_class( $content ) {
+    // Bail if there is no content to work with.
 
-        $html = $document->saveHTML();
-        return $html;
+    if ( ! $content ) {
+        return $content;
     }
+
+    // Create an instance of DOMDocument.
+    $dom = new \DOMDocument();
+
+    // Supress errors due to malformed HTML.
+    // See http://stackoverflow.com/a/17559716/3059883
+    $libxml_previous_state = libxml_use_internal_errors( true );
+
+    // Populate $dom with $content, making sure to handle UTF-8.
+    // Also, make sure that the doctype and HTML tags are not added to our
+    // HTML fragment. http://stackoverflow.com/a/22490902/3059883
+    $dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ),
+        LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+
+    // Restore previous state of libxml_use_internal_errors() now that we're done.
+    libxml_use_internal_errors( $libxml_previous_state );
+
+    // Create an instance of DOMXpath.
+    $xpath = new \DOMXpath( $dom );
+
+    // Get images then loop through and add additional classes.
+    $imgs = $xpath->query( "//img" );
+    foreach ( $imgs as $img ) {
+        $existing_class = $img->getAttribute( 'class' );
+        $img->setAttribute( 'class', "{$existing_class} lazy-load img-fluid" );
+    }
+
+    // Save and return updated HTML.
+    $new_content = $dom->saveHTML();
+    return $new_content;
+}
 
     // Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
     function arTheme_remove_thumbnail_dimensions($html) {
@@ -377,8 +401,9 @@
     remove_action('wp_head', 'wp_shortlink_wp_head', 10);
 
     // Add Filters
-   // add_filter('script_loader_tag', 'arTheme_add_script_tag_attributes', 10, 2); // Add attributes to CDN script tag
+    // add_filter('script_loader_tag', 'arTheme_add_script_tag_attributes', 10, 2); // Add attributes to CDN script tag
     // add_filter('avatar_defaults', 'arThemegravatar'); // Custom Gravatar in Settings > Discussion
+    add_filter( 'the_content', 'arTheme_add_img_post_class' );
     add_filter('body_class', 'arTheme_add_slug_to_body_class'); // Add slug to body class (Starkers build)
     add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
     add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
@@ -390,11 +415,11 @@
     add_filter('the_excerpt', 'shortcode_unautop'); // Remove auto <p> tags in Excerpt (Manual Excerpts only)
     add_filter('the_excerpt', 'do_shortcode'); // Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
     // add_filter('excerpt_more', 'arTheme_view_article'); // Add 'View Article' button instead of [...] for Excerpts
-    add_filter('show_admin_bar', 'arTheme_remove_admin_bar'); // Remove Admin bar
+  //  add_filter('show_admin_bar', 'arTheme_remove_admin_bar'); // Remove Admin bar
     add_filter('style_loader_tag', 'arTheme_styles_remove'); // Remove 'text/css' from enqueued stylesheet
     add_filter('post_thumbnail_html', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
     add_filter('image_send_to_editor', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
-    add_filter('the_content', 'arTheme_add_class_to_image_in_content'); // Add .img-fluid class to images in the content
+   // add_filter('the_content', 'arTheme_add_class_to_image_in_content'); // Add .img-fluid class to images in the content
     add_filter('the_content','arTheme_lazy_load_attributes'); // Native lazyoad images for browsers with lazyload support
     add_filter('wpseo_json_ld_output', 'arTheme_remove_yoast_json', 10, 1); // Rwmove Yoast spam
     add_filter( 'wpcf7_load_js', '__return_false' ); // Remove contactform7 js if no form on page
