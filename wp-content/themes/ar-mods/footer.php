@@ -8,39 +8,41 @@ $options = get_option( 'workz_theme_settings' );
 <div class="clear"></div>
 
 </div>
-<!-- END wrap --> 
+<!-- END wrap -->
 
     <div id="footer-wrap">
     <div id="footer">
-    
+
         <div id="footer-widget-wrap" class="clearfix">
-    
+
             <div id="footer-left">
             <?php dynamic_sidebar('footer-left'); ?>
             </div>
-            
+
             <div id="footer-middle">
              <?php dynamic_sidebar('footer-middle'); ?>
             </div>
-            
+
             <div id="footer-right">
              <?php dynamic_sidebar('footer-right'); ?>
             </div>
-        
+
         </div>
-    
+
         <div id="footer-bottom">
-        
+
             <div id="copyright">
                 &copy; <?php echo date('Y'); ?>  <?php bloginfo( 'name' ) ?>
             </div>
-            
+
             <div id="back-to-top">
-                <a href="#toplink"><?php _e('back up', 'workz'); ?> &uarr;</a>
+                <a href=”#anchored” class="go-top"  rel="nofollow">
+                    <span class="fixed-btn fa fa-angle-up" aria-hidden="true">GO TO TOP</span>
+                </a>
             </div>
-        
+
         </div>
-    
+
     </div>
 </div>
 
