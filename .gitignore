@@ -115,6 +115,7 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/plugins/akismet*
 
 /wp-content/themes/wordpress-blank*
+/wp-content/themes/wordpress-blank/*
 
 dist
 node_modules
