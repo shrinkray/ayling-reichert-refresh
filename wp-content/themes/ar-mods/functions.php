@@ -55,7 +55,9 @@
 
         function arTheme_styles() {
             // Normalize is loaded in Bootstrap and both are imported into the style.css via Sass
+            wp_register_style('arBootstrapCss', get_stylesheet_directory_uri() . '/dist/style.min.css', array(), '1.0.0', 'all');
             wp_register_style('arThemeCss', get_stylesheet_directory_uri() . '/dist/main.style.css', array(), '1.0.0', 'all');
+            wp_enqueue_style('arBootstrapCss'); // Enqueue it!
             wp_enqueue_style('arThemeCss'); // Enqueue it!
         }
     }
@@ -300,7 +302,7 @@ function arTheme_add_img_post_class( $content ) {
     $imgs = $xpath->query( "//img" );
     foreach ( $imgs as $img ) {
         $existing_class = $img->getAttribute( 'class' );
-        $img->setAttribute( 'class', "{$existing_class} lazy-load img-fluid" );
+        $img->setAttribute( 'class', "{$existing_class} img-fluid" );
     }
 
     // Save and return updated HTML.
@@ -325,13 +327,13 @@ function arTheme_add_img_post_class( $content ) {
     /* ======================================================================
         ADD NATIVE LAZYLOAD SUPPORT
 	====================================================================== */
-    function arTheme_lazy_load_attributes($content) {
-        /* Add loading="lazy" to all images filtered by the_content */
-        $content = str_replace('<img','<img loading="lazy"', $content);
-        /* Add loading="lazy" to all iframes filtered by the_content */
-        $content = str_replace('<iframe','<iframe loading="lazy"', $content);
-        return $content;
-    }
+//    function arTheme_lazy_load_attributes($content) {
+//        /* Add loading="lazy" to all images filtered by the_content */
+//        $content = str_replace('<img','<img loading="lazy"', $content);
+//        /* Add loading="lazy" to all iframes filtered by the_content */
+//        $content = str_replace('<iframe','<iframe loading="lazy"', $content);
+//        return $content;
+//    }
 
     /* ======================================================================
         REMOVE RECENT COMMENT STYLES
@@ -422,7 +424,7 @@ function arTheme_add_img_post_class( $content ) {
     add_filter('post_thumbnail_html', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
     add_filter('image_send_to_editor', 'arTheme_remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
    // add_filter('the_content', 'arTheme_add_class_to_image_in_content'); // Add .img-fluid class to images in the content
-    add_filter('the_content','arTheme_lazy_load_attributes'); // Native lazyoad images for browsers with lazyload support
+  //  add_filter('the_content','arTheme_lazy_load_attributes'); // Native lazyoad images for browsers with lazyload support
     add_filter('wpseo_json_ld_output', 'arTheme_remove_yoast_json', 10, 1); // Rwmove Yoast spam
     add_filter( 'wpcf7_load_js', '__return_false' ); // Remove contactform7 js if no form on page
     add_filter( 'wpcf7_load_css', '__return_false' ); // Remove contactform7 css if no form on page
