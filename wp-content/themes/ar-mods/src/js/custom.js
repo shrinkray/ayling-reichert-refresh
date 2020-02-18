@@ -1,20 +1,20 @@
 jQuery(function($){
 	$(document).ready(function(){
-		
+
 		// superFish
-		$("ul.sf-menu").superfish({ 
+		$("ul.sf-menu").superfish({
 			autoArrows: true,
 			animation:  {opacity:'show',height:'show'}
 		});
-		
-		// back to top
-		$('a[href=#toplink]').click(function(){
-			$('html, body').animate({scrollTop:0}, 'slow');
-			return false;
-		});
-		
-		
-		// portfolio
+
+        // Animate to scroll to top
+        $('.go-top').click(function (event) {
+            event.preventDefault();
+
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+
+        // portfolio
 		$('.portfolio-item').hover(function(){
 			$(this).find("img").stop().animate({opacity:'0.8'}, 100);
 			$(this).find("h2").stop(true, true).slideDown("normal"); }
@@ -22,7 +22,7 @@ jQuery(function($){
 			$(this).find("img").stop().animate({opacity:'1'}, 100);
 			$(this).find("h2").stop(true, true).slideUp("fast");
 		});
-		
+
 		//equal heights
 		function equalHeight(group) {
 		var tallest = 0;
@@ -35,6 +35,6 @@ jQuery(function($){
 		group.height(tallest);
 	}
 	equalHeight($(".portfolio-item-details"))
-	
+
 	}); // END doc ready
 }); // END function

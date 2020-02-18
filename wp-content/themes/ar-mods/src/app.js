@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import './js/custom';
  import 'popper.js';
 // import 'bootstrap/js/dist/alert';
 // import 'bootstrap/js/dist/button';
@@ -25,10 +26,4 @@ import "./sass/style.scss";
 	});
 })(jQuery);
 
-// Animate to scroll to top
-$('.go-top').click(function (event) {
-    event.preventDefault();
-
-    $('html, body').animate({scrollTop: 0}, 400);
-});
 
