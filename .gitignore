@@ -114,7 +114,7 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/themes/twentytwenty
 
 /wp-content/themes/index.php
-/wp-content/plugins/index.php
+/wp-content/plugins
 /wp-content/plugins/akismet*
 
 /wp-content/themes/genesis
