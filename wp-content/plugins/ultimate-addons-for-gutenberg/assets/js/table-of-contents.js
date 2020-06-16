@@ -14,15 +14,17 @@
 		}
 
 		var parsedSlug = slug.toString().toLowerCase()
-			.replace(/[&]nbsp[;]/gi, '-')                // Replace inseccable spaces
-			.replace(/\s+/g, '-')                        // Replace spaces with -
-			.replace(/<[^<>]+>/g, '')                    // Remove tags
-			.replace(/[&\/\\#,!+()$~%.'":*?<>{}]/g, '')  // Remove special chars
-			.replace(/\-\-+/g, '-')                      // Replace multiple - with single -
-			.replace(/^-+/, '')                          // Trim - from start of text
-			.replace(/-+$/, '');                         // Trim - from end of text
+			.replace(/&(amp;)/g, '')					 	// Remove &
+			.replace(/&(mdash;)/g, '')					 	// Remove long dash
+			.replace(/\u2013|\u2014/g, '')				 	// Remove long dash
+			.replace(/[&]nbsp[;]/gi, '-')                	// Replace inseccable spaces
+			.replace(/\s+/g, '-')                        	// Replace spaces with -
+			.replace(/[&\/\\#,^!+()$~%.'":*?<>{}@‘’”“]/g, '')  // Remove special chars
+			.replace(/\-\-+/g, '-')                      	// Replace multiple - with single -
+			.replace(/^-+/, '')                          	// Trim - from start of text
+			.replace(/-+$/, '');                         	// Trim - from end of text
 
-		return encodeURIComponent( parsedSlug );
+		return decodeURI( encodeURIComponent( parsedSlug ) );
 	};
 
 
@@ -32,18 +34,20 @@
 
 			$( document ).delegate( ".uagb-toc__list a", "click", UAGBTableOfContents._scroll )
 			$( document ).delegate( ".uagb-toc__scroll-top", "click", UAGBTableOfContents._scrollTop )
-			$( document ).delegate( '.uag-toc__collapsible-wrap', 'click', UAGBTableOfContents._toggleCollapse )
+			$( document ).delegate( '.uagb-toc__title-wrap', 'click', UAGBTableOfContents._toggleCollapse )
 			$( document ).on( "scroll", UAGBTableOfContents._showHideScroll  )
 
 		},
 
 		_toggleCollapse: function( e ) {
-			let $root = $( this ).closest( '.wp-block-uagb-table-of-contents' )
+			if ( $( this ).find( '.uag-toc__collapsible-wrap' ).length > 0 ) {
+				let $root = $( this ).closest( '.wp-block-uagb-table-of-contents' )
 
-			if ( $root.hasClass( 'uagb-toc__collapse' ) ) {
-				$root.removeClass( 'uagb-toc__collapse' );
-			} else {
-				$root.addClass( 'uagb-toc__collapse' );
+				if ( $root.hasClass( 'uagb-toc__collapse' ) ) {
+					$root.removeClass( 'uagb-toc__collapse' );
+				} else {
+					$root.addClass( 'uagb-toc__collapse' );
+				}
 			}
 		},
 
@@ -107,23 +111,39 @@
 		 */
 		_run: function( attr, id ) {
 
-			$this_scope = $( id );
-			$headers = $this_scope.find( '.uagb-toc__list-wrap' ).data( 'headers' );
+			var $this_scope = $( id );
 
-			if ( undefined !== $headers ) {
-
-				$headers.forEach(function (element, index) {
-					var point_header = $( 'body' ).find( 'h' + element.tag + ':contains("' + element.text + '")' );
-
-					if ( undefined !== point_header && point_header.length > 0 ) {
-						point_header.before(function (ind) {
-							var anchor = parseTocSlug( $( point_header[ind] ).text() );
-							return '<span id="' + anchor + '" class="uag-toc__heading-anchor"></span>';
-						});
-					}
-				});
+			if ( $this_scope.find( '.uag-toc__collapsible-wrap' ).length > 0 ) {
+				$this_scope.find( '.uagb-toc__title-wrap' ).addClass( 'uagb-toc__is-collapsible' );
 			}
 
+			var $headers = JSON.parse(attr.headerLinks);
+			
+			var allowed_h_tags = [];
+			
+			if ( undefined !== attr.mappingHeaders ) {
+
+				attr.mappingHeaders.forEach((h_tag, index) => h_tag === true ? allowed_h_tags.push('h' + (index+1)) : null);
+				var allowed_h_tags_str = ( null !== allowed_h_tags ) ? allowed_h_tags.join( ',' ) : '';
+			}
+
+			var all_header = ( undefined !== allowed_h_tags_str && '' !== allowed_h_tags_str ) ? $( 'body' ).find( allowed_h_tags_str ) : $( 'body' ).find('h1, h2, h3, h4, h5, h6' );
+
+			if ( undefined !== $headers && 0 !== all_header.length ) {
+
+				$headers.forEach(function (element, i) {
+					
+					let element_text = parseTocSlug(element.text);
+					all_header.each( function (){
+
+						let header = $( this );
+						let header_text = parseTocSlug(header.text());
+						if ( element_text.localeCompare(header_text) === 0 ) {
+							header.before('<span id="' + header_text + '" class="uag-toc__heading-anchor"></span>');
+						}
+					});
+				});
+			}
 
 			scroll_to_top = attr.scrollToTop
 

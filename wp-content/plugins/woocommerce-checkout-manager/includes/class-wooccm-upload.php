@@ -1,31 +1,43 @@
 <?php
 
-class WOOCCM_Upload {
+class WOOCCM_Upload
+{
 
   protected static $_instance;
 
-  public function __construct() {
-    $this->init();
+  public function __construct()
+  {
+    add_action('wp_ajax_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
+    add_action('wp_ajax_nopriv_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
+
+    // Checkout
+    // -----------------------------------------------------------------------
+    add_action('wp_ajax_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
+    add_action('wp_ajax_nopriv_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
+    add_action('woocommerce_checkout_update_order_meta', array($this, 'update_attachment_ids'), 99);
+    //  }
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
     return self::$_instance;
   }
 
-  protected function process_uploads($files, $key, $post_id = 0) {
+  protected function process_uploads($files, $key, $post_id = 0)
+  {
 
     if (!function_exists('media_handle_upload')) {
-      require_once( ABSPATH . 'wp-admin/includes/file.php' );
-      require_once( ABSPATH . 'wp-admin/includes/media.php' );
-      require_once( ABSPATH . 'wp-admin/includes/image.php' );
+      require_once(ABSPATH . 'wp-admin/includes/file.php');
+      require_once(ABSPATH . 'wp-admin/includes/media.php');
+      require_once(ABSPATH . 'wp-admin/includes/image.php');
     }
 
     $attachment_ids = array();
 
-    add_filter('upload_dir', function( $param ) {
+    add_filter('upload_dir', function ($param) {
       $param['path'] = sprintf('%s/wooccm_uploads', $param['basedir']);
       $param['url'] = sprintf('%s/wooccm_uploads', $param['baseurl']);
       return $param;
@@ -36,11 +48,11 @@ class WOOCCM_Upload {
       if ($files['name'][$id]) {
 
         $_FILES[$key] = array(
-            'name' => $files['name'][$id],
-            'type' => $files['type'][$id],
-            'tmp_name' => $files['tmp_name'][$id],
-            'error' => $files['error'][$id],
-            'size' => $files['size'][$id]
+          'name' => $files['name'][$id],
+          'type' => $files['type'][$id],
+          'tmp_name' => $files['tmp_name'][$id],
+          'error' => $files['error'][$id],
+          'size' => $files['size'][$id]
         );
 
         if (!is_wp_error($attachment_id = media_handle_upload($key, $post_id))) {
@@ -55,12 +67,13 @@ class WOOCCM_Upload {
     return $attachment_ids;
   }
 
-  public function ajax_delete_attachment() {
+  public function ajax_delete_attachment()
+  {
 
     if (!empty($_REQUEST) && check_admin_referer('wooccm_upload', 'nonce')) {
 
-      $array1 = explode(',', sanitize_text_field(isset($_REQUEST['all_attachments_ids']) ? $_REQUEST['all_attachments_ids'] : '' ));
-      $array2 = explode(',', sanitize_text_field(isset($_REQUEST['delete_attachments_ids']) ? $_REQUEST['delete_attachments_ids'] : '' ));
+      $array1 = explode(',', sanitize_text_field(isset($_REQUEST['all_attachments_ids']) ? $_REQUEST['all_attachments_ids'] : ''));
+      $array2 = explode(',', sanitize_text_field(isset($_REQUEST['delete_attachments_ids']) ? $_REQUEST['delete_attachments_ids'] : ''));
 
       if (empty($array1) || empty($array2)) {
         wp_send_json_error(esc_html__('No attachment selected.', 'woocommerce-checkout-manager'));
@@ -93,7 +106,8 @@ class WOOCCM_Upload {
     }
   }
 
-  public function ajax_checkout_attachment_upload() {
+  public function ajax_checkout_attachment_upload()
+  {
 
     if (check_admin_referer('wooccm_upload', 'nonce') && isset($_FILES['wooccm_checkout_attachment_upload'])) {
 
@@ -112,9 +126,10 @@ class WOOCCM_Upload {
     }
   }
 
-  public function update_attachment_ids($order_id = 0) {
+  public function update_attachment_ids($order_id = 0)
+  {
 
-    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
 
     if (count($checkout = WC()->checkout->get_checkout_fields())) {
 
@@ -141,19 +156,6 @@ class WOOCCM_Upload {
       }
     }
   }
-
-  public function init() {
-    add_action('wp_ajax_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
-    add_action('wp_ajax_nopriv_wooccm_order_attachment_update', array($this, 'ajax_delete_attachment'));
-
-    // Checkout
-    // -----------------------------------------------------------------------
-    add_action('wp_ajax_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
-    add_action('wp_ajax_nopriv_wooccm_checkout_attachment_upload', array($this, 'ajax_checkout_attachment_upload'));
-    add_action('woocommerce_checkout_update_order_meta', array($this, 'update_attachment_ids'), 99);
-//  }
-  }
-
 }
 
 WOOCCM_Upload::instance();

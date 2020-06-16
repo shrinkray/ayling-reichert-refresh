@@ -32,7 +32,7 @@ if ( !function_exists( 'sugb_fs' ) ) {
                 'account'    => true,
                 'pricing'    => true,
                 'contact'    => true,
-                'support'    => true,
+                'support'    => false,
             ),
                 'is_live'         => true,
             ) );

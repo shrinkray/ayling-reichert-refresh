@@ -7,7 +7,7 @@
  * Author: Gambit Technologies, Inc
  * Author URI: http://gambit.ph
  * Text Domain: stackable-ultimate-gutenberg-blocks
- * Version: 2.2.1
+ * Version: 2.6.1
  *
  * @package Stackable
  */
@@ -23,7 +23,7 @@ if ( function_exists( 'sugb_fs' ) ) {
 }
 
 defined( 'STACKABLE_SHOW_PRO_NOTICES' ) || define( 'STACKABLE_SHOW_PRO_NOTICES', true );
-defined( 'STACKABLE_VERSION' ) || define( 'STACKABLE_VERSION', '2.2.1' );
+defined( 'STACKABLE_VERSION' ) || define( 'STACKABLE_VERSION', '2.6.1' );
 defined( 'STACKABLE_FILE' ) || define( 'STACKABLE_FILE', __FILE__ );
 defined( 'STACKABLE_I18N' ) || define( 'STACKABLE_I18N', 'stackable-ultimate-gutenberg-blocks' );
 // Plugin slug.
@@ -122,13 +122,16 @@ require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/fonts.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/block/blog-posts/index.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/pro.php';
+require_once plugin_dir_path( __FILE__ ) . 'src/help/help-tooltip.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/help/welcome-tutorial-video.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/jetpack.php';
+require_once plugin_dir_path( __FILE__ ) . 'src/design-library/init.php';
 /**
  * Welcome screen.
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/welcome/index.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/welcome/news.php';
+require_once plugin_dir_path( __FILE__ ) . 'src/welcome/freemius.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/welcome/updates.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/welcome/notification.php';
 require_once plugin_dir_path( __FILE__ ) . 'src/welcome/notification-rate.php';

@@ -12,6 +12,7 @@
               <th class="type" style="width:1%"><?php esc_html_e('Type', 'woocommerce-checkout-manager'); ?></th>
               <th class="label" style="width:1%;min-width: 100px;"><?php esc_html_e('Label', 'woocommerce-checkout-manager'); ?></th>
               <th class="placeholder"><?php esc_html_e('Placeholder', 'woocommerce-checkout-manager'); ?></th>
+              <th class="id" style="width:1%;"><?php esc_html_e('ID', 'woocommerce-checkout-manager'); ?></th>
               <!--<th class="listable"><?php esc_html_e('Listable', 'woocommerce-checkout-manager'); ?></th>
               <th class="sortable"><?php esc_html_e('Sortable', 'woocommerce-checkout-manager'); ?></th>
               <th class="filterable"><?php esc_html_e('Filterable', 'woocommerce-checkout-manager'); ?></th>-->
@@ -68,6 +69,9 @@
                   </td>
                   <td class="placeholder">
                     <?php echo esc_html($field['placeholder']); ?>
+                  </td>   
+                  <td class="id">
+                    <?php echo esc_html($field['key']); ?>
                   </td>                  
                   <!--<td class="listable">
                   <?php
@@ -111,7 +115,7 @@
                     <a class="<?php printf('wooccm_%s_settings_edit', $current_section); ?> button" aria-label="<?php esc_html_e('Edit checkout field', 'woocommerce-checkout-manager'); ?>" href="javascript:;"><?php esc_html_e('Edit'); ?></a>
                   </td>
                   <td class="delete">
-                    <?php if (is_array($defaults) && !in_array($field['name'], $defaults)): ?>
+                    <?php if (is_array($defaults) && !in_array($field['key'], array_column($defaults, 'key'))): ?>
                       <a class="<?php printf('wooccm_%s_settings_delete', $current_section); ?>" aria-label="<?php esc_html_e('Edit checkout field', 'woocommerce-checkout-manager'); ?>" href="javascript:;"><?php esc_html_e('Delete'); ?></a>
                     <?php endif; ?>
                   </td>

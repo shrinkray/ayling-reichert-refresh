@@ -1,22 +1,26 @@
 <?php
 
-class WOOCCM_Fields_i18n {
+class WOOCCM_Fields_i18n
+{
 
   protected static $_instance;
   protected static $domain = 'woocommerce';
 
-  public function __construct() {
-    $this->init();
+  public function __construct()
+  {
+    add_filter('wooccm_checkout_field_filter', array($this, 'translate_field'));
   }
 
-  public static function instance() {
+  public static function instance()
+  {
     if (is_null(self::$_instance)) {
       self::$_instance = new self();
     }
     return self::$_instance;
   }
 
-  public function register_wpml_string($value) {
+  public function register_wpml_string($value)
+  {
 
     if (!empty($value) && function_exists('icl_register_string')) {
 
@@ -38,7 +42,8 @@ class WOOCCM_Fields_i18n {
     return $value;
   }
 
-  public function i18n($string) {
+  public function i18n($string)
+  {
 
     if (function_exists('icl_t')) {
       return icl_t(WOOCCM_PLUGIN_NAME, $string, $string);
@@ -47,7 +52,8 @@ class WOOCCM_Fields_i18n {
     return esc_html__($string, self::$domain);
   }
 
-  public function translate($value) {
+  public function translate($value)
+  {
 
     if (!empty($value)) {
 
@@ -67,7 +73,8 @@ class WOOCCM_Fields_i18n {
     return $value;
   }
 
-  public function translate_field($field) {
+  public function translate_field($field)
+  {
 
     // ii18n
     // -----------------------------------------------------------------------
@@ -82,11 +89,6 @@ class WOOCCM_Fields_i18n {
 
     return $field;
   }
-
-  public function init() {
-    add_filter('wooccm_checkout_field_filter', array($this, 'translate_field'));
-  }
-
 }
 
 WOOCCM_Fields_i18n::instance();

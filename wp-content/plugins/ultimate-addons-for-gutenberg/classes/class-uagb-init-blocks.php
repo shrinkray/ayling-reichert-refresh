@@ -32,7 +32,7 @@ class UAGB_Init_Blocks {
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 		return self::$instance;
 	}
@@ -48,6 +48,50 @@ class UAGB_Init_Blocks {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 
 		add_filter( 'block_categories', array( $this, 'register_block_category' ), 10, 2 );
+
+		add_action( 'wp_ajax_uagb_gf_shortcode', array( $this, 'gf_shortcode' ) );
+		add_action( 'wp_ajax_nopriv_uagb_gf_shortcode', array( $this, 'gf_shortcode' ) );
+
+		add_action( 'wp_ajax_uagb_cf7_shortcode', array( $this, 'cf7_shortcode' ) );
+		add_action( 'wp_ajax_nopriv_uagb_cf7_shortcode', array( $this, 'cf7_shortcode' ) );
+	}
+
+	/**
+	 * Renders the Gravity Form shortcode.
+	 *
+	 * @since 1.12.0
+	 */
+	public function gf_shortcode() {
+
+		check_ajax_referer( 'uagb_ajax_nonce', 'nonce' );
+
+		$id = intval( $_POST['formId'] );
+
+		if ( $id && 0 !== $id && -1 !== $id ) {
+			$data['html'] = do_shortcode( '[gravityforms id="' . $id . '" ajax="true"]' );
+		} else {
+			$data['html'] = '<p>' . __( 'Please select a valid Gravity Form.', 'ultimate-addons-for-gutenberg' ) . '</p>';
+		}
+		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Renders the Contect Form 7 shortcode.
+	 *
+	 * @since 1.10.0
+	 */
+	public function cf7_shortcode() {
+
+		check_ajax_referer( 'uagb_ajax_nonce', 'nonce' );
+
+		$id = intval( $_POST['formId'] );
+
+		if ( $id && 0 !== $id && -1 !== $id ) {
+			$data['html'] = do_shortcode( '[contact-form-7 id="' . $id . '" ajax="true"]' );
+		} else {
+			$data['html'] = '<p>' . __( 'Please select a valid Contact Form 7.', 'ultimate-addons-for-gutenberg' ) . '</p>';
+		}
+		wp_send_json_success( $data );
 	}
 
 	/**
@@ -57,7 +101,7 @@ class UAGB_Init_Blocks {
 	 * @param object $post Post object.
 	 * @since 1.0.0
 	 */
-	function register_block_category( $categories, $post ) {
+	public function register_block_category( $categories, $post ) {
 		return array_merge(
 			$categories,
 			array(
@@ -85,7 +129,16 @@ class UAGB_Init_Blocks {
 				}
 			} else {
 
-				if ( false === has_blocks() ) {
+				$post = get_post();
+
+				/**
+				 * Filters the post to build stylesheet for.
+				 *
+				 * @param \WP_Post $post The global post.
+				 */
+				$post = apply_filters( 'uagb_post_for_stylesheet', $post );
+
+				if ( false === has_blocks( $post ) ) {
 					return;
 				}
 
@@ -103,7 +156,7 @@ class UAGB_Init_Blocks {
 		);
 
 		$blocks          = UAGB_Config::get_block_attributes();
-		$disabled_blocks = UAGB_Helper::get_admin_settings_option( '_uagb_blocks', array() );
+		$disabled_blocks = UAGB_Admin_Helper::get_admin_settings_option( '_uagb_blocks', array() );
 		$block_assets    = UAGB_Config::get_block_assets();
 
 		foreach ( $blocks as $slug => $value ) {
@@ -131,10 +184,13 @@ class UAGB_Init_Blocks {
 						$val, // Handle.
 						$block_assets[ $val ]['src'],
 						$block_assets[ $val ]['dep'],
-						UAGB_VER
+						UAGB_VER,
+						true
 					);
 
-					if ( is_admin() ) {
+					$skip_editor = isset( $block_assets[ $val ]['skipEditor'] ) ? $block_assets[ $val ]['skipEditor'] : false;
+
+					if ( is_admin() && false === $skip_editor ) {
 						wp_enqueue_script( $val );
 					}
 				}
@@ -162,7 +218,9 @@ class UAGB_Init_Blocks {
 	 *
 	 * @since 1.0.0
 	 */
-	function editor_assets() {
+	public function editor_assets() {
+
+		$uagb_ajax_nonce = wp_create_nonce( 'uagb_ajax_nonce' );
 		// Scripts.
 		wp_enqueue_script(
 			'uagb-block-editor-js', // Handle.
@@ -191,7 +249,7 @@ class UAGB_Init_Blocks {
 		wp_enqueue_script( 'uagb-deactivate-block-js', UAGB_URL . 'dist/blocks-deactivate.js', array( 'wp-blocks' ), UAGB_VER, true );
 
 		$blocks       = array();
-		$saved_blocks = UAGB_Helper::get_admin_settings_option( '_uagb_blocks' );
+		$saved_blocks = UAGB_Admin_Helper::get_admin_settings_option( '_uagb_blocks' );
 
 		if ( is_array( $saved_blocks ) ) {
 			foreach ( $saved_blocks as $slug => $data ) {
@@ -236,6 +294,7 @@ class UAGB_Init_Blocks {
 				'image_sizes'       => UAGB_Helper::get_image_sizes(),
 				'post_types'        => UAGB_Helper::get_post_types(),
 				'all_taxonomy'      => UAGB_Helper::get_related_taxonomy(),
+				'uagb_ajax_nonce'   => $uagb_ajax_nonce,
 			)
 		);
 	} // End function editor_assets().

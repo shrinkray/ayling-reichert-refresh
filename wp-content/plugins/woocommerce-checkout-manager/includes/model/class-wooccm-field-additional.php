@@ -8,7 +8,7 @@ if (!class_exists('WOOCCM_Field_Additional')) {
 
     protected static $_instance;
     protected $prefix = 'additional';
-    protected $option_name = 'wooccm_additional';
+    protected $table = 'wooccm_additional';
 
     public static function instance() {
       if (is_null(self::$_instance)) {

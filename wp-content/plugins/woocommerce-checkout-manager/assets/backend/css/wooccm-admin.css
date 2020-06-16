@@ -77,6 +77,9 @@ table.wooccm-enhanced-options > tbody > tr > td.sort .wc-item-reorder-nav {
 #wooccm_modal select {
   min-height: 30px;
 }
+#wooccm_modal .form-field .wrap {
+  padding: 0;
+}
 #wooccm_modal .attachment-info .details,
 #wooccm_modal .attachment-info .settings {
   width: 100%;
@@ -117,17 +120,15 @@ table.wooccm-enhanced-options > tbody > tr > td.sort .wc-item-reorder-nav {
 #wooccm_modal #woocommerce-product-data .woocommerce_options_panel .select2-container {
   width: 50%!important;
   line-height: 16px;
-  /*        span {
-                  width: auto;
-                  float: none;
-                  margin: auto;
-                  padding: auto;
-                }*/
+}
+#wooccm_modal #woocommerce-product-data .woocommerce_options_panel .select2-container .select2-selection {
+  box-shadow: none;
+  border-radius: 3px;
+  padding: 0 24px 0 8px;
 }
 #wooccm_modal #woocommerce-product-data .woocommerce_options_panel .select2-container .select2-selection--multiple {
   line-height: 16px;
   min-height: 30px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
 }
 @media only screen and (max-width: 1280px) {
   #wooccm_modal #woocommerce-product-data .woocommerce_options_panel .select2-container {

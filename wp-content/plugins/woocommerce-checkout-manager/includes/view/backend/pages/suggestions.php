@@ -1,3 +1,17 @@
+<style>
+  @media screen and (max-width: 2299px) and (min-width: 1600px) {
+
+    #the-list {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .plugin-card {
+      margin: 8px !important;
+      width: calc(50% - 4px - 16px)!important;
+    }
+  }
+</style>
+
 <?php include_once('parts/header.php' ); ?>
 <div class="wrap" style="
      position: relative;

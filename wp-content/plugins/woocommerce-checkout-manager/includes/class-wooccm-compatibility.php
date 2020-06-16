@@ -1,176 +1,166 @@
 <?php
 
-class WOOCCM_Field_Compatibility {
+class WOOCCM_Field_Compatibility
+{
 
   protected $fields = null;
   protected $prefix = '';
-  protected $option_name = '';
+  protected $table = '';
   protected $defaults = array();
   private $old_to_old_types = array(
-      'heading' => 'heading',
-      'text' => 'wooccmtext',
-      'textarea' => 'wooccmtextarea',
-      'password' => 'wooccmpassword',
-      'select' => 'wooccmselect',
-      'radio' => 'wooccmradio',
-      'checkbox' => 'checkbox_wccm',
-      //'button' => __('Button', 'woocommerce-checkout-manager'),
-      'country' => 'wooccmcountry',
-      'state' => 'wooccmstate',
-      'multiselect' => 'multiselect',
-      'multicheckbox' => 'multicheckbox',
-      'datepicker' => 'datepicker',
-      'timepicker' => 'time',
-      'colorpicker' => 'colorpicker',
-      'file' => 'wooccmupload',
+    'heading' => 'heading',
+    'text' => 'wooccmtext',
+    'textarea' => 'wooccmtextarea',
+    'password' => 'wooccmpassword',
+    'select' => 'wooccmselect',
+    'radio' => 'wooccmradio',
+    'checkbox' => 'checkbox_wccm',
+    //'button' => __('Button', 'woocommerce-checkout-manager'),
+    'country' => 'wooccmcountry',
+    'state' => 'wooccmstate',
+    'multiselect' => 'multiselect',
+    'multicheckbox' => 'multicheckbox',
+    'datepicker' => 'datepicker',
+    'timepicker' => 'time',
+    'colorpicker' => 'colorpicker',
+    'file' => 'wooccmupload',
   );
   private $old_to_old_args = array(
-      'disabled' => null,
-      'order' => null,
-      'priority' => null,
-      'name' => 'cow',
-      'type' => null,
-      'label' => null,
-      'placeholder' => null,
-      'default' => 'force_title2',
-      'position' => null,
-      'clear' => 'clear_row',
-      'options' => 'option_array',
-      'required' => 'checkbox',
-      // Display
-      // -------------------------------------------------------------------
-      'show_role' => 'role_option',
-      'hide_role' => 'role_option2',
-      'more_product' => 'more_content',
-      'show_product' => 'single_px',
-      'hide_product' => 'single_p',
-      'show_product_cat' => 'single_px_cat',
-      'hide_product_cat' => 'single_p_cat',
-      // Timing
-      // -------------------------------------------------------------------
-      'time_limit_start' => 'start_hour',
-      'time_limit_end' => 'end_hour',
-      'time_limit_interval' => 'interval_min',
-      'manual_min' => null,
-      'date_limit' => 'date_limit',
-      'date_limit_variable_min' => 'min_before',
-      'date_limit_variable_max' => 'max_after',
-      'date_limit_fixed_min' => null,
-      'date_limit_fixed_max' => null,
-      'date_limit_days' => null,
-      'single_dd' => null,
-      'single_mm' => null,
-      'single_yy' => null,
-      'single_max_dd' => null,
-      'single_max_mm' => null,
-      'single_max_yy' => null,
-      // Amount
-      // -------------------------------------------------------------------
-      'add_price' => null,
-      'add_price_name' => 'fee_name',
-      'add_price_total' => 'add_price_field',
-      'add_price_type' => null,
-      'add_price_tax' => 'tax_remove',
-      'extra_class' => null,
-      // Conditional
-      // -------------------------------------------------------------------
-      'conditional' => 'conditional_parent_use',
-      'conditional_parent_key' => 'conditional_tie',
-      'conditional_parent_value' => 'chosen_valt',
-      // Color
-      // -------------------------------------------------------------------
-      'pickertype' => 'colorpickertype',
-      // State
-      // -------------------------------------------------------------------
-      'country' => null,
-      // Upload
-      // -------------------------------------------------------------------
-      'file_limit' => null,
-      'file_types' => null,
-      // Listing
-      // -------------------------------------------------------------------
-      'listable' => null,
-      'sortable' => null,
-      'filterable' => null,
+    'disabled' => null,
+    'order' => null,
+    'priority' => null,
+    'name' => 'cow',
+    'type' => null,
+    'label' => null,
+    'placeholder' => null,
+    'default' => 'force_title2',
+    'position' => null,
+    'clear' => 'clear_row',
+    'options' => 'option_array',
+    'required' => 'checkbox',
+    // Display
+    // -------------------------------------------------------------------
+    'show_role' => 'role_option',
+    'hide_role' => 'role_option2',
+    'more_product' => 'more_content',
+    'show_product' => 'single_px',
+    'hide_product' => 'single_p',
+    'show_product_cat' => 'single_px_cat',
+    'hide_product_cat' => 'single_p_cat',
+    // Timing
+    // -------------------------------------------------------------------
+    'time_limit_start' => 'start_hour',
+    'time_limit_end' => 'end_hour',
+    'time_limit_interval' => 'interval_min',
+    'manual_min' => null,
+    'date_limit' => 'date_limit',
+    'date_limit_variable_min' => 'min_before',
+    'date_limit_variable_max' => 'max_after',
+    'date_limit_fixed_min' => null,
+    'date_limit_fixed_max' => null,
+    'date_limit_days' => null,
+    'single_dd' => null,
+    'single_mm' => null,
+    'single_yy' => null,
+    'single_max_dd' => null,
+    'single_max_mm' => null,
+    'single_max_yy' => null,
+    // Amount
+    // -------------------------------------------------------------------
+    'add_price' => null,
+    'add_price_name' => 'fee_name',
+    'add_price_total' => 'add_price_field',
+    'add_price_type' => null,
+    'add_price_tax' => 'tax_remove',
+    'extra_class' => null,
+    // Conditional
+    // -------------------------------------------------------------------
+    'conditional' => 'conditional_parent_use',
+    'conditional_parent_key' => 'conditional_tie',
+    'conditional_parent_value' => 'chosen_valt',
+    // Color
+    // -------------------------------------------------------------------
+    'pickertype' => 'colorpickertype',
+    // State
+    // -------------------------------------------------------------------
+    'country' => null,
+    // Upload
+    // -------------------------------------------------------------------
+    'file_limit' => null,
+    'file_types' => null,
+    // Listing
+    // -------------------------------------------------------------------
+    'listable' => null,
+    'sortable' => null,
+    'filterable' => null,
   );
   private $old_args = array(
-      'disabled',
-      'order',
-      'priority',
-      'cow',
-      'type',
-      'label',
-      'placeholder',
-      'force_title2',
-      'position',
-      'clear_row',
-      'option_array',
-      'checkbox',
-      'role_option',
-      'role_option2',
-      'more_content',
-      'single_p',
-      'single_px',
-      'single_p_cat',
-      'single_px_cat',
-      'start_hour',
-      'end_hour',
-      'interval_min',
-      'manual_min',
-      'min_before',
-      'max_after',
-      'single_dd',
-      'single_mm',
-      'single_yy',
-      'single_max_dd',
-      'single_max_mm',
-      'single_max_yy',
-      'days_disabler',
-      'days_disabler0',
-      'days_disabler1',
-      'days_disabler2',
-      'days_disabler3',
-      'days_disabler4',
-      'days_disabler5',
-      'days_disabler6',
-      'add_amount',
-      'fee_name',
-      'add_amount_field',
-      'tax_remove',
-      'conditional_parent_use',
-      'conditional_tie',
-      'chosen_valt',
-      'extra_class',
-      'colorpickertype',
-      'colorpickerd',
-      'role_options',
-      'role_options2',
-      'changenamep',
-      'changename',
-      // New
-      // -----------------------------------------------------------------------
-      'country',
-      'file_limit',
-      'file_types',
-      'listable',
-      'sortable',
-      'filterable',
+    'disabled',
+    'order',
+    'priority',
+    'cow',
+    'type',
+    'label',
+    'placeholder',
+    'force_title2',
+    'position',
+    'clear_row',
+    'option_array',
+    'checkbox',
+    'role_option',
+    'role_option2',
+    'more_content',
+    'single_p',
+    'single_px',
+    'single_p_cat',
+    'single_px_cat',
+    'start_hour',
+    'end_hour',
+    'interval_min',
+    'manual_min',
+    'min_before',
+    'max_after',
+    'single_dd',
+    'single_mm',
+    'single_yy',
+    'single_max_dd',
+    'single_max_mm',
+    'single_max_yy',
+    'days_disabler',
+    'days_disabler0',
+    'days_disabler1',
+    'days_disabler2',
+    'days_disabler3',
+    'days_disabler4',
+    'days_disabler5',
+    'days_disabler6',
+    'add_amount',
+    'fee_name',
+    'add_amount_field',
+    'tax_remove',
+    'conditional_parent_use',
+    'conditional_tie',
+    'chosen_valt',
+    'extra_class',
+    'colorpickertype',
+    'colorpickerd',
+    'role_options',
+    'role_options2',
+    'changenamep',
+    'changename',
+    // New
+    // -----------------------------------------------------------------------
+    'country',
+    'file_limit',
+    'file_types',
+    'listable',
+    'sortable',
+    'filterable',
   );
   protected static $_instance;
 
-  public function __construct() {
-    $this->init();
-  }
-
-  public static function instance() {
-
-    if (is_null(self::$_instance)) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
-
-  public function init() {
+  public function __construct()
+  {
 
     if (false === get_option('wooccm_billing', false) && $fields = $this->get_fields_new('wccs_settings3', 'billing')) {
       update_option('wooccm_billing', $fields);
@@ -185,7 +175,17 @@ class WOOCCM_Field_Compatibility {
     }
   }
 
-  function replace_keys($array = array(), $replace = array()) {
+  public static function instance()
+  {
+
+    if (is_null(self::$_instance)) {
+      self::$_instance = new self();
+    }
+    return self::$_instance;
+  }
+
+  function replace_keys($array = array(), $replace = array())
+  {
 
     foreach ($array as $key => $value) {
 
@@ -200,7 +200,8 @@ class WOOCCM_Field_Compatibility {
     return $array;
   }
 
-  function replace_value($value = '', $replace = array()) {
+  function replace_value($value = '', $replace = array())
+  {
     if (array_key_exists($value, $replace)) {
       return $replace[$value];
     }
@@ -208,7 +209,8 @@ class WOOCCM_Field_Compatibility {
     return $value;
   }
 
-  function string_to_array($value) {
+  function string_to_array($value)
+  {
 
     if (!empty($value) && !is_array($value)) {
       if (strpos($value, '||') !== false) {
@@ -223,7 +225,8 @@ class WOOCCM_Field_Compatibility {
     return $value;
   }
 
-  function array_to_string($value) {
+  function array_to_string($value)
+  {
 
     if (is_array($value)) {
       if (count($value)) {
@@ -236,7 +239,8 @@ class WOOCCM_Field_Compatibility {
     return $value;
   }
 
-  function get_new_args($field = array(), $prefix = '') {
+  function get_new_args($field = array(), $prefix = '')
+  {
 
     $replace = array_flip(array_filter($this->old_to_old_args));
 
@@ -247,7 +251,8 @@ class WOOCCM_Field_Compatibility {
     return $field;
   }
 
-  function get_new_type($type = '') {
+  function get_new_type($type = '')
+  {
 
     $replace = array_flip(array_filter($this->old_to_old_types));
 
@@ -256,7 +261,8 @@ class WOOCCM_Field_Compatibility {
     return $type;
   }
 
-  function new_panel_compatibility($field_id, $field = array(), $fields = array(), $prefix = '') {
+  function new_panel_compatibility($field_id, $field = array(), $fields = array(), $prefix = '')
+  {
 
     $field = $this->get_new_args($field, $prefix);
 
@@ -272,32 +278,37 @@ class WOOCCM_Field_Compatibility {
         if (is_array($options)) {
 
           $field['options'] = array();
-          $i = 0;
+          //          $i = 0;
           foreach ($options as $key => $label) {
             $field['options'][] = array(
-                'label' => $label,
-                'add_price_total' => 0,
-                'add_price_type' => 'fixed',
-                'add_price_tax' => 0,
-                'default' => ''
+              'label' => $label,
+              'add_price_total' => 0,
+              'add_price_type' => 'fixed',
+              'add_price_tax' => 0,
+              'default' => ''
             );
 
             if (!empty($field['conditional_parent_value']) && $field['conditional_parent_value'] == $label) {
-              $field['conditional_parent_value'] = $i;
+              $field['conditional_parent_value'] = $label;
             }
 
-            $i++;
+            //            $i++;
           }
         }
       }
+    } else {
+      $field['options'] = array();
     }
 
-    if (!empty($field['conditional_parent_key']) && !empty($field['conditional_parent_key'])) {
-//      if ($parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']))) {
+    if (!empty($field['conditional_parent_key']) && isset($field['conditional_parent_value'])) {
       if ($parent_id = WOOCCM()->$prefix->get_field_id($fields, 'key', $field['conditional_parent_key'])) {
         if (isset($fields[$parent_id]) && !empty($fields[$parent_id]['options'])) {
-          $id = @max(array_keys(array_column($fields[$parent_id]['options'], 'label'), $field['conditional_parent_value']));
-          $field['conditional_parent_value'] = (int) $id;
+          $labels = array_column($fields[$parent_id]['options'], 'label');
+
+          if (isset($labels[$field['conditional_parent_value']])) {
+
+            $field['conditional_parent_value'] = $labels[$field['conditional_parent_value']];
+          }
         }
       }
     }
@@ -348,22 +359,25 @@ class WOOCCM_Field_Compatibility {
       $field['date_limit_fixed_max'] = '';
     }
 
-    //return $field;
-    return WOOCCM()->$prefix->sanitize_field_data(array_intersect_key($field, array_flip(array_keys(WOOCCM()->$prefix->get_args()))));
+    return $field;
+    //return WOOCCM()->$prefix->sanitize_field_data(array_intersect_key($field, array_flip(array_keys(WOOCCM()->$prefix->get_args()))));
   }
 
-  protected function get_fields_new($name, $prefix = '') {
+  protected function get_fields_new($name, $prefix = '')
+  {
 
     if ($fields = $this->get_option_old($name, $prefix)) {
 
-      $defaults = WOOCCM()->$prefix->get_default_fields();
+      //$defaults = WOOCCM()->$prefix->get_default_fields();
+
+      //$defaults_keys = array_column($defaults, 'key');
 
       foreach ($fields as $field_id => $field) {
 
         $field = $this->new_panel_compatibility($field_id, $field, $fields, $prefix);
 
-//        if (count($defaults) && $default_id = @max(array_keys(array_column($defaults, 'key'), $field['key']))) {
-        if (count($defaults) && $default_id = WOOCCM()->$prefix->get_field_id($defaults, 'key', $field['key'])) {
+        //        if (count($defaults) && $default_id = @max(array_keys(array_column($defaults, 'key'), $field['key']))) {
+        /*if (count($defaults) && $default_id = WOOCCM()->$prefix->get_field_id($defaults, 'key', $field['key'])) {
 
           if (isset($defaults[$default_id])) {
 
@@ -373,7 +387,7 @@ class WOOCCM_Field_Compatibility {
 
             $field = wp_parse_args($field, $defaults[$default_id]);
           }
-        }
+        }*/
 
         $fields[$field_id] = $field;
       }
@@ -387,7 +401,8 @@ class WOOCCM_Field_Compatibility {
   // Core
   // -------------------------------------------------------------------------
 
-  protected function get_option_old($name, $prefix) {
+  protected function get_option_old($name, $prefix)
+  {
 
     if ($fields = get_option($name)) {
 
@@ -406,7 +421,6 @@ class WOOCCM_Field_Compatibility {
 
     return $fields;
   }
-
 }
 
 WOOCCM_Field_Compatibility::instance();

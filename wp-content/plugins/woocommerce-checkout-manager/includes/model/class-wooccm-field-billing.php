@@ -9,7 +9,7 @@ if (!class_exists('WOOCCM_Field_Billing')) {
     protected static $_instance;
     //protected $fields = array();
     protected $prefix = 'billing';
-    protected $option_name = 'wooccm_billing';
+    protected $table = 'wooccm_billing';
     protected $defaults = array(
         'country',
         'first_name',

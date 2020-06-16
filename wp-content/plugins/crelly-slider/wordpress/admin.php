@@ -268,6 +268,11 @@ class CrellySliderAdmin {
 
 		wp_enqueue_style('crellyslider-admin', CS_PLUGIN_URL . '/wordpress/css/admin.css', array(), CS_VERSION);
 		wp_enqueue_script('crellyslider-admin');
+
+		// Add Gutenberg block
+		if(function_exists('register_block_type')) {
+			wp_enqueue_script('crellyslider-gutenberg', CS_PLUGIN_URL . '/wordpress/js/gutenberg.js', array('wp-blocks', 'wp-element'), CS_VERSION, true);
+		}
 	}
 
 	public static function loadAssets() {
@@ -289,6 +294,9 @@ class CrellySliderAdmin {
 			'remove_slide' => __('Delete slide', 'crelly-slider'),
 			'exit_without_saving' => __('All unsaved changes will be lost. Are you sure you want to leave this page?', 'crelly-slider'),
 			'switch_editor' => __('Switch editor', 'crelly-slider'),
+			'select_slider' => __('Select slider', 'crelly-slider'),
+			'no_sliders_found' => __('No sliders found. Do you want to&nbsp;<a href="admin.php?page=crellyslider&view=add">create one</a>?', 'crelly-slider'),
+			'no_sliders_selected' => __('No sliders selected. Edit this page and select a slider in the Crelly Slider editor block.', 'crelly-slider'),
 		);
 		wp_localize_script('crellyslider-admin', 'crellyslider_translations', $crellyslider_translations);
 	}
@@ -300,6 +308,7 @@ class CrellySliderAdmin {
 			'duplicateSlider' => wp_create_nonce('crellyslider_duplicate-slider'),
 			'exportSlider' => wp_create_nonce('crellyslider_export-slider'),
 			'importSlider' => wp_create_nonce('crellyslider_import-slider'),
+			'listSlidersForGutenberg' => wp_create_nonce('crellyslider_list-sliders-for-gutenberg'),
 		);
 
 		wp_localize_script('crellyslider-admin', 'crellyslider_nonces', $nonces);
@@ -420,8 +429,8 @@ class CrellySliderAdmin {
 
 				// don't wrap objects, arrays or functions in quotes
 				if ($length > 0
-					&& (('{' == $value{0} && '}' == $value{$length - 1}) ||
-						('[' == $value{0} && ']' == $value{$length - 1}) ||
+					&& (('{' == $value[0] && '}' == $value[$length - 1]) ||
+						('[' == $value[0] && ']' == $value[$length - 1]) ||
 						preg_match('/^\(?function ?\(/', $value))) {
 
 					$serialized .= $key . ':' . $value . ',';

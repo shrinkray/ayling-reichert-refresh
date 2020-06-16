@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name:       Qubely - Advanced Gutenberg Blocks 
+ * Plugin Name:       Qubely - Advanced Gutenberg Blocks
  * Plugin URI:        https://www.themeum.com/
  * Description:       The one and only Gutenberg block plugin you will ever need.
- * Version: 		  1.3.2
+ * Version: 		  1.5.0
  * Author:            Themeum.com
- * Author URI:        https://themeum.com/
+ * Author URI:        https://www.themeum.com/
  * Text Domain:       qubely
  * Requires at least: 5.0
  * Tested up to: 	  5.3
@@ -24,7 +24,7 @@ function qubely_language_load()
 }
 
 // Define Version
-define('QUBELY_VERSION', '1.3.2');
+define('QUBELY_VERSION', '1.5.0');
 
 // Define License
 define('QUBELY_LICENSE', 'free');
@@ -59,6 +59,14 @@ if (!version_compare(PHP_VERSION, '5.4', '>=')) {
     require_once QUBELY_DIR_PATH . 'core/QUBELY.php';   // Loading QUBELY Blocks Main Files
 }
 
+function qubely_blocks_add_orderby( $params ) {
+
+	$params['orderby']['enum'][] = 'rand';
+	$params['orderby']['enum'][] = 'menu_order';
+
+	return $params;
+}
+
 /**
  * Create API fields for additional info
  *
@@ -68,6 +76,9 @@ function qubely_register_rest_fields()
 {
     $post_types = get_post_types();
 
+    foreach ( $post_types as $key => $type ) {
+		add_filter( "rest_{$type}_collection_params", 'qubely_blocks_add_orderby', 10, 1 );
+	}
     //featured image
     register_rest_field(
         $post_types,
@@ -116,6 +127,7 @@ function qubely_register_rest_fields()
             ),
         )
     );
+
 }
 
 //author
@@ -144,7 +156,7 @@ if (!function_exists('qubely_get_category_list')) {
 //feature image
 function qubely_get_featured_image_url($object)
 {
-    
+
 
     $featured_images = array();
     if (!isset($object['featured_media'])) {
@@ -156,7 +168,7 @@ function qubely_get_featured_image_url($object)
             $featured_images['landscape'] = wp_get_attachment_image_src($object['featured_media'], 'qubely_landscape', false);
             $featured_images['portraits'] = wp_get_attachment_image_src($object['featured_media'], 'qubely_portrait', false);
             $featured_images['thumbnail'] =  wp_get_attachment_image_src($object['featured_media'], 'qubely_thumbnail', false);
-            
+
             $image_sizes = QUBELY::get_all_image_sizes();
             foreach ($image_sizes as $key => $value) {
                 $size = $value['value'];
@@ -171,6 +183,7 @@ function qubely_get_featured_image_url($object)
     }
 }
 add_action('rest_api_init', 'qubely_register_rest_fields');
+
 
 function qubely_blog_posts_image_sizes()
 {

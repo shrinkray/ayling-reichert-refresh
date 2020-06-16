@@ -10,12 +10,12 @@ namespace Automattic\WooCommerce\Admin;
 defined( 'ABSPATH' ) || exit;
 
 use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes;
-use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Facebook_Extension;
 use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Historical_Data;
 use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Order_Milestones;
-use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Welcome_Message;
 use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Woo_Subscriptions_Notes;
 use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Tracking_Opt_In;
+use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_WooCommerce_Payments;
+use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Install_JP_And_WCS_Plugins;
 
 /**
  * Feature plugin main class.
@@ -75,9 +75,12 @@ class FeaturePlugin {
 		if ( did_action( 'plugins_loaded' ) ) {
 			self::on_plugins_loaded();
 		} else {
-			add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
+			// Make sure we hook into `plugins_loaded` before core's Automattic\WooCommerce\Package::init().
+			// If core is network activated but we aren't, the packaged version of WooCommerce Admin will
+			// attempt to use a data store that hasn't been loaded yet - because we've defined our constants here.
+			// See: https://github.com/woocommerce/woocommerce-admin/issues/3869.
+			add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), 9 );
 		}
-		add_filter( 'action_scheduler_store_class', array( $this, 'replace_actionscheduler_store_class' ) );
 	}
 
 	/**
@@ -148,7 +151,7 @@ class FeaturePlugin {
 		$this->define( 'WC_ADMIN_PLUGIN_FILE', WC_ADMIN_ABSPATH . 'woocommerce-admin.php' );
 		// WARNING: Do not directly edit this version number constant.
 		// It is updated as part of the prebuild process from the package.json value.
-		$this->define( 'WC_ADMIN_VERSION_NUMBER', '0.25.1' );
+		$this->define( 'WC_ADMIN_VERSION_NUMBER', '1.2.4' );
 	}
 
 	/**
@@ -180,29 +183,9 @@ class FeaturePlugin {
 		new WC_Admin_Notes_Woo_Subscriptions_Notes();
 		new WC_Admin_Notes_Historical_Data();
 		new WC_Admin_Notes_Order_Milestones();
-		new WC_Admin_Notes_Welcome_Message();
-		new WC_Admin_Notes_Facebook_Extension();
 		new WC_Admin_Notes_Tracking_Opt_In();
-	}
-
-	/**
-	 * Filter in our ActionScheduler Store class.
-	 *
-	 * @param string $store_class ActionScheduler Store class name.
-	 * @return string ActionScheduler Store class name.
-	 */
-	public function replace_actionscheduler_store_class( $store_class ) {
-		// Don't override any other overrides.
-		if ( 'ActionScheduler_wpPostStore' !== $store_class ) {
-			return $store_class;
-		}
-
-		// Don't override if action scheduler is 3.0.0 or greater.
-		if ( version_compare( \ActionScheduler_Versions::instance()->latest_version(), '3.0', '>=' ) ) {
-			return $store_class;
-		}
-
-		return 'Automattic\WooCommerce\Admin\Overrides\WPPostStore';
+		new WC_Admin_Notes_WooCommerce_Payments();
+		new WC_Admin_Notes_Install_JP_And_WCS_Plugins();
 	}
 
 	/**
@@ -254,7 +237,7 @@ class FeaturePlugin {
 	 *
 	 * @return bool
 	 */
-	protected function has_satisfied_dependencies() {
+	public function has_satisfied_dependencies() {
 		$dependency_errors = $this->get_dependency_errors();
 		return 0 === count( $dependency_errors );
 	}
@@ -273,7 +256,7 @@ class FeaturePlugin {
 	 */
 	public function deactivate_self() {
 		deactivate_plugins( plugin_basename( WC_ADMIN_PLUGIN_FILE ) );
-		unset( $_GET['activate'] );
+		unset( $_GET['activate'] ); // phpcs:ignore CSRF ok.
 	}
 
 	/**

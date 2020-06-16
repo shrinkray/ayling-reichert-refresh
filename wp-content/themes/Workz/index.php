@@ -17,8 +17,8 @@ $options = get_option( 'workz_theme_settings' );
 <?php } ?>
 
 <!-- Homepage Slider -->
-<?php get_template_part( 'includes/nivo' ) ?>  
-
+<?php //get_template_part( 'includes/nivo' ) ?>
+<?php echo do_shortcode('[crellyslider alias="ar_home"]') ?>
 
 <!-- Homepage Highlights -->
 <?php

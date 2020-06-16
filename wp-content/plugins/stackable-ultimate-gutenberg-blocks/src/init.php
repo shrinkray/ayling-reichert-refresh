@@ -43,6 +43,10 @@ if ( ! function_exists( 'stackable_block_assets' ) ) {
 				array(),
 				STACKABLE_VERSION
 			);
+
+			wp_localize_script( 'ugb-block-frontend-js', 'stackable', array(
+				'restUrl' => get_rest_url(),
+			) );
 		}
 	}
 	add_action( 'enqueue_block_assets', 'stackable_block_assets' );
@@ -80,7 +84,7 @@ if ( ! function_exists( 'stackable_block_editor_assets' ) ) {
 			plugins_url( 'dist/editor_blocks.js', STACKABLE_FILE ),
 			// wp-util for wp.ajax.
 			// wp-plugins & wp-edit-post for Gutenberg plugins.
-			array( 'ugb-block-js-vendor', 'code-editor', 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-util', 'wp-plugins', 'wp-edit-post', 'wp-i18n' ),
+			array( 'ugb-block-js-vendor', 'code-editor', 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-util', 'wp-plugins', 'wp-edit-post', 'wp-i18n', 'wp-api' ),
 			STACKABLE_VERSION
 		);
 
@@ -117,7 +121,7 @@ if ( ! function_exists( 'stackable_block_editor_assets' ) ) {
 			'showProNotice' => stackable_should_show_pro_notices(),
 			'pricingURL' => sugb_fs()->get_upgrade_url(),
 			'planName' => sugb_fs()->is_plan( 'starter', true ) ? 'starter' :
-			              sugb_fs()->is_plan( 'professional', true ) ? 'professional' : 'business',
+			              ( sugb_fs()->is_plan( 'professional', true ) ? 'professional' : 'business' ),
 		) );
 	}
 
@@ -134,29 +138,6 @@ if ( ! function_exists( 'stackable_load_plugin_textdomain' ) ) {
 		load_plugin_textdomain( 'stackable-ultimate-gutenberg-blocks' );
 	}
 	add_action( 'plugins_loaded', 'stackable_load_plugin_textdomain' );
-}
-
-
-
-if ( ! function_exists( 'stackable_block_category' ) ) {
-
-	/**
-	 * Add our custom block category for Stackable blocks.
-	 *
-	 * @since 0.6
-	 */
-	function stackable_block_category( $categories, $post ) {
-		return array_merge(
-			$categories,
-			array(
-				array(
-					'slug' => 'stackable',
-					'title' => __( 'Stackable', STACKABLE_I18N ),
-				),
-			)
-		);
-	}
-	add_filter( 'block_categories', 'stackable_block_category', 10, 2 );
 }
 
 if ( ! function_exists( 'stackable_add_required_block_styles' ) ) {

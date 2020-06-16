@@ -37,7 +37,7 @@ function coblocks_render_posts_block( $attributes ) {
 
 		if ( is_wp_error( $recent_posts ) ) {
 
-			return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __( 'RSS Error:', 'coblocks' ) . '</strong> ' . $recent_posts->get_error_message() . '</div></div>';
+			return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __( 'RSS error:', 'coblocks' ) . '</strong> ' . $recent_posts->get_error_message() . '</div></div>';
 
 		}
 
@@ -89,6 +89,8 @@ function coblocks_posts( $posts, $attributes ) {
 	$class_name  = array();
 	$class       = array( 'wp-block-coblocks-posts__inner' );
 	$block_style = strpos( $attributes['className'], 'is-style-stacked' ) !== false ? 'stacked' : 'horizontal';
+
+	array_push( $class_name, 'wp-block-coblocks-posts' );
 
 	if ( isset( $attributes['className'] ) ) {
 		array_push( $class_name, $attributes['className'] );

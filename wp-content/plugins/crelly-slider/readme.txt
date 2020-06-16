@@ -1,10 +1,10 @@
 === Crelly Slider ===
 Contributors: fabiorino
 Donate link: http://crellyslider.altervista.org/contribute-and-support/
-Tags: animations, layers, texts, images, videos
-Requires at least: 3.9
-Tested up to: 5.3
-Stable tag: 1.3.6
+Tags: slider, layers, animations, transitions, texts, images, videos
+Requires at least: 4.6
+Tested up to: 5.4
+Stable tag: 1.4.2
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -53,6 +53,20 @@ You can find the documentation <a href="http://crellyslider.altervista.org/docum
 4. Slides and elements options (in this case, a text element)
 
 == Changelog ==
+
+= 1.4.2 =
+* Push required version of WordPress to 4.6.
+
+= 1.4.1 =
+* Fixed Gutenberg editor block failing to load.
+
+= 1.4.0 =
+* Added support for Gutenberg: sliders can now be inserted in a page or a post via the WordPress visual editor, no need to use shortcodes anymore (but it will still be supported).
+* Fixed slider option "Start from slide" displaying only "Random slide", as reported <a href="https://wordpress.org/support/topic/start-slide-cannot-be-selected-if-random-start-slide-is-selected">here</a>.
+* Fixed an issue where it was displayed an unsuccessful error message when saving slides with no elements, despite the operation being successful.
+
+= 1.3.7 =
+* Fixed PHP warning "Array and string offset access syntax with curly braces is deprecated" as reported <a href="https://wordpress.org/support/topic/syntax-with-curly-braces-is-deprecated">here</a>
 
 = 1.3.6 =
 * Fixed PHP warning "Cannot modify header information - headers already sent" as reported <a href="https://wordpress.org/support/topic/incompatibility-with-athemes-sydney-pros-customizer">here</a>

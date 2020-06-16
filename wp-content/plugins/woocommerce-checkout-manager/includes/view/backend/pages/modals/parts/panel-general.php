@@ -113,6 +113,8 @@
         <option <# if ( 1 == data.default ) { #>selected="selected"<# } #> value="1"><?php esc_html_e('Yes'); ?></option>
         <option <# if ( 0 == data.default ) { #>selected="selected"<# } #> value="0"><?php esc_html_e('No'); ?></option>
       </select>
+      <# } else if (data.type == 'number') { #>
+      <input class="short" type="number" name="default" placeholder="<?php esc_html_e('Enter a default value (optional)', 'woocommerce-checkout-manager'); ?>" value="{{data.default}}">
       <# } else { #>
       <input class="short" type="text" name="default" placeholder="<?php esc_html_e('Enter a default value (optional)', 'woocommerce-checkout-manager'); ?>" value="{{data.default}}">
       <# } #>
@@ -120,6 +122,17 @@
     </p>
   </div>
   <# } #>
+
+  <# if ( data.type == 'number') { #>
+  <p class="form-field dimensions_field">
+      <label><?php esc_html_e('Number', 'woocommerce-checkout-manager'); ?></label>
+      <span class="wrap">
+        <input style="width:48.1%" type="number" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" placeholder="<?php esc_attr_e('minimun', 'woocommerce-checkout-manager'); ?>" class="short" name="min" value="{{data.min}}">
+          <input style="width:48.1%;margin: 0;" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" type="number" placeholder="<?php esc_attr_e('maximun', 'woocommerce-checkout-manager'); ?>" class="short" name="max" value="{{data.max}}">
+      </span>
+  </p>
+  <# } #>
+
   <# if (data.type == 'file') { #>
   <!--<div class="options_group">
     <p class="form-field">

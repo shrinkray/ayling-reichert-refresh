@@ -710,6 +710,10 @@ final class Mega_Menu_Style_Manager {
 
         $vars['wp_theme'] = strtolower( str_replace( array( ".", " " ), "_", $theme_id ) );
 
+        if ( empty( $vars['wp_theme'] ) ) {
+            $vars['wp_theme'] = 'unknown';
+        }
+
         if ( ! function_exists( 'is_plugin_active' )) {
             include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
         }
@@ -898,8 +902,17 @@ final class Mega_Menu_Style_Manager {
 
         $scripts_in_footer = defined( 'MEGAMENU_SCRIPTS_IN_FOOTER' ) ? MEGAMENU_SCRIPTS_IN_FOOTER : true;
 
-        wp_enqueue_script( 'megamenu', $js_path, $dependencies, MEGAMENU_VERSION, $scripts_in_footer );
+        ///** change the script handle to prevent conflict with theme files */
+        //function megamenu_script_handle() {
+        //    return "maxmegamenu";
+        //}
+        //add_filter("megamenu_javascript_handle", "megamenu_script_handle");*/
+        $handle = apply_filters("megamenu_javascript_handle", "megamenu");
 
+        wp_enqueue_script( $handle, $js_path, $dependencies, MEGAMENU_VERSION, $scripts_in_footer );
+
+        // @todo: remove the following code in future update. Only here to prevent JS errors for users with
+        // cached versions of maxmegamenu.js
         $params = apply_filters("megamenu_javascript_localisation",
             array(
                 "timeout" => 300,
@@ -907,7 +920,7 @@ final class Mega_Menu_Style_Manager {
             )
         );
 
-        wp_localize_script( 'megamenu', 'megamenu', $params );
+        wp_localize_script( $handle, 'megamenu', $params );
     }
 
     /**

@@ -3,11 +3,13 @@
 /**
  * Plugin Name: WooCommerce Checkout Manager
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     4.9.3
+ * Version:     5.1.2
  * Author:      QuadLayers
  * Author URI:  https://www.quadlayers.com
  * Copyright:   2019 QuadLayers (https://www.quadlayers.com)
  * Text Domain: woocommerce-checkout-manager
+ * WC requires at least: 3.1.0
+ * WC tested up to: 4.2.0
  */
 if (!defined('ABSPATH')) {
   die('-1');
@@ -17,7 +19,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'WooCommerce Checkout Manager');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '4.9.3');
+  define('WOOCCM_PLUGIN_VERSION', '5.1.2');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);
@@ -49,12 +51,16 @@ if (!defined('WOOCCM_SUPPORT_URL')) {
 if (!defined('WOOCCM_GROUP_URL')) {
   define('WOOCCM_GROUP_URL', 'https://www.facebook.com/groups/quadlayers');
 }
-
-if (!class_exists('WOOCCM', false)) {
-  include_once( WOOCCM_PLUGIN_DIR . 'includes/class-wooccm.php' );
+if (!defined('WOOCCM_DEVELOPER')) {
+  define('WOOCCM_DEVELOPER', false);
 }
 
-function WOOCCM() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+if (!class_exists('WOOCCM', false)) {
+  include_once(WOOCCM_PLUGIN_DIR . 'includes/class-wooccm.php');
+}
+
+function WOOCCM()
+{ // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
   return WOOCCM::instance();
 }
 

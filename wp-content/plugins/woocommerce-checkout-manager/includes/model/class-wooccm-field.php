@@ -1,13 +1,15 @@
 <?php
 
-class WOOCCM_Field {
+include_once('class-wooccm-model.php');
 
-  protected $fields = array();
+class WOOCCM_Field extends WOOCCM_Model
+{
   protected $prefix = '';
-  protected $option_name = '';
+  protected $table = '';
   protected $defaults = array();
 
-  protected function order_fields($a, $b) {
+  protected function order_fields($a, $b)
+  {
 
     if (!isset($a['order']) || !isset($b['order']))
       return 0;
@@ -15,10 +17,11 @@ class WOOCCM_Field {
     if ($a['order'] == $b['order'])
       return 0;
 
-    return ( $a['order'] < $b['order'] ) ? -1 : 1;
+    return ($a['order'] < $b['order']) ? -1 : 1;
   }
 
-  protected function duplicated_name($name, $fields) {
+  protected function duplicated_name($name, $fields)
+  {
 
     if (!empty($fields)) {
       if (is_array($fields)) {
@@ -33,7 +36,8 @@ class WOOCCM_Field {
     return false;
   }
 
-  public function get_field_id($fields, $key = 'key', $value) {
+  public function get_field_id($fields, $key = 'key', $value)
+  {
 
     if (count($fields)) {
 
@@ -47,25 +51,18 @@ class WOOCCM_Field {
     return 0;
   }
 
-  public function get_next_id($fields) {
-
-    if (count($fields)) {
-      return max(array_keys($fields)) + 1;
-    }
-
-    return 0;
-  }
-
-  public function get_name($field_id) {
+  public function get_name($field_id)
+  {
     return WOOCCM_PREFIX . $field_id;
   }
 
-  public function get_key($prefix = '', $name) {
+  public function get_key($prefix = '', $name)
+  {
     return sprintf("%s_%s", $prefix, $name);
   }
 
-  public function get_conditional_types() {
-
+  public function get_conditional_types()
+  {
     $fields = self::get_types();
 
     unset($fields['heading']);
@@ -74,194 +71,278 @@ class WOOCCM_Field {
     return array_keys($fields);
   }
 
-  public function get_option_types() {
-
+  public function get_option_types()
+  {
     return array(
-        'multicheckbox',
-        'multiselect',
-        'select',
-        'radio'
+      'multicheckbox',
+      'multiselect',
+      'select',
+      'radio'
     );
   }
 
-  public function get_multiple_types() {
-
+  public function get_multiple_types()
+  {
     return array(
-        'multicheckbox',
-        'multiselect',
+      'multicheckbox',
+      'multiselect',
     );
   }
 
-  public function get_template_types() {
-
+  public function get_template_types()
+  {
     return array(
-        'heading',
-        'message',
-        'button',
-        'file',
-//        'country',
-//        'state'
+      'heading',
+      'message',
+      'button',
+      'file',
+      //        'country',
+      //        'state'
     );
   }
 
-  public function get_disabled_types() {
-
+  public function get_disabled_types()
+  {
     return apply_filters('wooccm_fields_disabled_types', array(
-        'message',
-        'button',
+      'message',
+      'button',
     ));
   }
 
-  public function get_types() {
+  public function get_types()
+  {
 
     return apply_filters('wooccm_fields_types', array(
-        'heading' => 'Heading',
-        'message' => 'Message',
-        'button' => 'Button',
-        'text' => 'Text',
-        'textarea' => 'Textarea',
-        'password' => 'Password',
-        'select' => 'Select',
-        'radio' => 'Radio',
-        'checkbox' => 'Checkbox',
-        'time' => 'Timepicker',
-        'date' => 'Datepicker',
-        'country' => 'Country',
-        'state' => 'State',
-        'multiselect' => 'Multiselect',
-        'multicheckbox' => 'Multicheckbox',
-        'colorpicker' => 'Colorpicker',
-        'file' => 'File',
+      'heading' => 'Heading',
+      'message' => 'Message',
+      'button' => 'Button',
+      'text' => 'Text',
+      'textarea' => 'Textarea',
+      'password' => 'Password',
+      'select' => 'Select',
+      'radio' => 'Radio',
+      'checkbox' => 'Checkbox',
+      'time' => 'Timepicker',
+      'date' => 'Datepicker',
+      'number' => 'Number',
+      'country' => 'Country',
+      'state' => 'State',
+      'multiselect' => 'Multiselect',
+      'multicheckbox' => 'Multicheckbox',
+      'colorpicker' => 'Colorpicker',
+      'file' => 'File',
     ));
   }
 
-  function get_args() {
+  function get_args()
+  {
 
     return array(
-        'id' => null,
-        'key' => '',
-        'name' => '',
-        'type' => 'text',
-        'disabled' => false,
-        'order' => null,
-        'priority' => null,
-        'label' => '',
-        'placeholder' => '',
-        'description' => '',
-        'default' => '',
-        'position' => '',
-        'clear' => false,
-        'options' => array(
-            0 => array(
-                'label' => esc_html__('Option', 'woocommerce-checkout-manager'),
-                'add_price_total' => 0,
-                'add_price_type' => 'fixed',
-                'add_price_tax' => 0,
-                'default' => '',
-                'order' => 0
-            )
-        ),
-        'required' => false,
-        'message_type' => 'info',
-        'button_type' => '',
-        'button_link' => '',
-        'class' => array(),
-        // Display
-        // -------------------------------------------------------------------
-        'show_cart_minimum' => 0,
-        'show_cart_maximun' => 0,
-        'show_role' => array(),
-        'hide_role' => array(),
-        'more_product' => false,
-        'show_product' => array(),
-        'hide_product' => array(),
-        'show_product_cat' => array(),
-        'hide_product_cat' => array(),
-        'hide_account' => false,
-        'hide_checkout' => false,
-        'hide_email' => false,
-        'hide_order' => false,
-        'hide_invoice' => false,
-        // Pickers
-        // -------------------------------------------------------------------
-        'time_limit_start' => null,
-        'time_limit_end' => null,
-        'time_limit_interval' => null,
-        'date_limit' => 'fixed',
-        'date_format' => '',
-        'date_limit_variable_min' => -1,
-        'date_limit_variable_max' => 1,
-        'date_limit_fixed_min' => date('Y-m-d'),
-        'date_limit_fixed_max' => date('Y-m-d'),
-        'date_limit_days' => array(),
-        // Price
-        // -------------------------------------------------------------------
-        'add_price' => false,
-        'add_price_name' => '',
-        'add_price_total' => null,
-        'add_price_type' => 'fixed',
-        'add_price_tax' => false,
-        'extra_class' => '',
-        // Conditional
-        // -------------------------------------------------------------------
-        'conditional' => false,
-        'conditional_parent_key' => '',
-        'conditional_parent_value' => '',
-        // State
-        // -------------------------------------------------------------------
-        'country' => '',
-        // Select 2
-        // -------------------------------------------------------------------
-        'select2' => false,
-        'select2_allowclear' => false,
-        'select2_selectonclose' => false,
-        'select2_closeonselect' => false,
-        'select2_search' => false,
-        // Upload
-        // -------------------------------------------------------------------
-        'file_limit' => 1,
-        'file_types' => array(),
-        // Color
-        // -------------------------------------------------------------------
-        'pickertype' => '',
-        // Listing
-        // -------------------------------------------------------------------
-        'listable' => false,
-        'sortable' => false,
-        'filterable' => false,
+      'id' => null,
+      'key' => '',
+      'name' => '',
+      'type' => 'text',
+      'disabled' => false,
+      'order' => null,
+      'priority' => null,
+      'label' => '',
+      'placeholder' => '',
+      'description' => '',
+      'default' => '',
+      'position' => '',
+      'clear' => false,
+      'options' => array(
+        0 => array(
+          'label' => esc_html__('Option', 'woocommerce-checkout-manager'),
+          'add_price_total' => 0,
+          'add_price_type' => 'fixed',
+          'add_price_tax' => 0,
+          'default' => '',
+          'order' => 0
+        )
+      ),
+      'required' => false,
+      'message_type' => 'info',
+      'button_type' => '',
+      'button_link' => '',
+      'class' => array(),
+      // Display
+      // -------------------------------------------------------------------
+      'show_cart_minimum' => 0,
+      'show_cart_maximun' => 0,
+      'show_role' => array(),
+      'hide_role' => array(),
+      'more_product' => false,
+      'show_product' => array(),
+      'hide_product' => array(),
+      'show_product_cat' => array(),
+      'hide_product_cat' => array(),
+      'hide_account' => false,
+      'hide_checkout' => false,
+      'hide_email' => false,
+      'hide_order' => false,
+      'hide_invoice' => false,
+      // Pickers
+      // -------------------------------------------------------------------
+      'time_limit_start' => null,
+      'time_limit_end' => null,
+      'time_limit_interval' => null,
+      'date_limit' => 'fixed',
+      'date_format' => '',
+      'date_limit_variable_min' => -1,
+      'date_limit_variable_max' => 1,
+      'date_limit_fixed_min' => date('Y-m-d'),
+      'date_limit_fixed_max' => date('Y-m-d'),
+      'date_limit_days' => array(),
+      // Price
+      // -------------------------------------------------------------------
+      'add_price' => false,
+      'add_price_name' => '',
+      'add_price_total' => null,
+      'add_price_type' => 'fixed',
+      'add_price_tax' => false,
+      'extra_class' => '',
+      // Conditional
+      // -------------------------------------------------------------------
+      'conditional' => false,
+      'conditional_parent_key' => '',
+      'conditional_parent_value' => '',
+      // State
+      // -------------------------------------------------------------------
+      'country' => '',
+      // Select 2
+      // -------------------------------------------------------------------
+      'select2' => false,
+      'select2_allowclear' => false,
+      'select2_selectonclose' => false,
+      'select2_closeonselect' => false,
+      'select2_search' => false,
+      // Upload
+      // -------------------------------------------------------------------
+      'file_limit' => 1,
+      'file_types' => array(),
+      // Color
+      // -------------------------------------------------------------------
+      'pickertype' => '',
+      // Listing
+      // -------------------------------------------------------------------
+      'listable' => false,
+      'sortable' => false,
+      'filterable' => false,
+      'max' => '',
+      'min' => '',
     );
   }
 
-  public function sanitize_field_data($field_data) {
+  public function get_defaults()
+  {
+    return $this->get_default_fields();
+  }
 
-    $args = $this->get_args();
+  public function get_default_fields()
+  {
 
-    foreach ($field_data as $key => $value) {
+    $fields = array();
 
-      if (array_key_exists($key, $args)) {
+    if ($this->prefix !== 'additional') {
 
-        $type = $args[$key];
+      $prefix = sprintf('%s_', $this->prefix);
 
-        if (is_null($type) && !is_numeric($value)) {
-          $field_data[$key] = (int) $value;
-        } elseif (is_bool($type) && !is_bool($value)) {
-          $field_data[$key] = ($value === 'true' || $value === '1' || $value === 1);
-        } elseif (is_string($type) && !is_string($value)) {
-          $field_data[$key] = strval($value);
-        } elseif (is_array($type) && !is_array($value)) {
-          $field_data[$key] = (array) $type;
-        }
-      } else {
-        unset($field_data[$key]);
+      //$filters = WOOCCM_Fields_Register::instance();
+      //fix nesting level
+      //remove_filter('woocommerce_' . $prefix . 'fields', array($filters, 'add_' . $prefix . 'fields'));
+      remove_all_filters('woocommerce_' . $prefix . 'fields');
+
+      $i = 0;
+      foreach (WC()->countries->get_address_fields('', $prefix) as $key => $field) {
+
+        $field['id'] = $i;
+        $field['key'] = $key;
+        $field['name'] = str_replace($prefix, '', $key);
+
+        $fields[$i] = $field;
+        $i++;
       }
     }
 
-    return $field_data;
+    return $fields;
   }
 
-  public function sanitize_field($field_id, $field, $fields) {
+  public function get_fields()
+  {
 
-    $field = wp_parse_args($field, $this->get_args());
+    // (is_array($fields = $this->get_items())) {
+
+    if (count($fields = $this->get_items())) {
+
+      foreach ($fields as $field_id => $field) {
+
+        $fields[$field_id] = apply_filters('wooccm_checkout_field_filter', $this->sanitize_field($field_id, $field, $fields), $field_id);
+      }
+
+      uasort($fields, array(__CLASS__, 'order_fields'));
+
+      $fields = apply_filters('wooccm_' . $this->prefix . '_fields', $fields);
+    }
+    //}
+
+    return $fields;
+  }
+
+  public function update_fields($fields)
+  {
+
+    if (is_array($fields)) {
+
+      foreach ($fields as $field_id => $field) {
+        if (!array_key_exists('name', $field)) {
+          return false;
+        }
+      }
+
+      //reorder array based on ids
+      ksort($fields);
+
+      if ($this->save_items($fields)) {
+        return $fields;
+      }
+    }
+
+    return false;
+  }
+
+  public function delete_fields()
+  {
+    $this->delete();
+    $this->save_items($this->get_defaults());
+  }
+
+  // Field
+  // ---------------------------------------------------------------------------
+
+  public function add_field($field_data)
+  {
+    return $this->add_item($field_data);
+  }
+
+  public function get_field($field_id)
+  {
+    return $this->get_item($field_id);
+  }
+
+  public function update_field($field_data)
+  {
+    return $this->update_item($field_data);
+  }
+
+  public function delete_field($field_id)
+  {
+    return $this->delete_item($field_id);
+  }
+
+  // Sanitize
+  public function sanitize_field($field_id, $field, $fields)
+  {
 
     $field['id'] = $field_id;
 
@@ -288,10 +369,6 @@ class WOOCCM_Field {
       $field['order'] = $field_id + 1;
     }
 
-    if (empty($field['order'])) {
-      $field['order'] = $field_id + 1;
-    }
-
     if (!empty($field['conditional_parent_key'])) {
 
       if (strpos($field['conditional_parent_key'], $this->prefix) === false) {
@@ -303,177 +380,10 @@ class WOOCCM_Field {
       }
     }
 
-    if (count($field['options']) > 1) {
+    if (is_array($field['options']) && count($field['options']) > 1) {
       uasort($field['options'], array(__CLASS__, 'order_fields'));
-    }
+    } 
 
     return wp_unslash($field);
   }
-
-  public function get_defaults() {
-    return $this->defaults;
-  }
-
-  public function get_default_fields() {
-
-    $fields = array();
-
-    if ($this->prefix !== 'additional') {
-
-      $prefix = sprintf('%s_', $this->prefix);
-
-      //$filters = WOOCCM_Fields_Register::instance();
-      //fix nesting level
-      //remove_filter('woocommerce_' . $prefix . 'fields', array($filters, 'add_' . $prefix . 'fields'));
-      remove_all_filters('woocommerce_' . $prefix . 'fields');
-
-      foreach (WC()->countries->get_address_fields('', $prefix) as $key => $field) {
-
-        $field['key'] = $key;
-        $field['name'] = str_replace($prefix, '', $key);
-
-        $fields[] = $field;
-      }
-    }
-
-    return $fields;
-  }
-
-  public function get_fields() {
-// breakes re order after reload
-//    if (count($this->fields)) {
-//      return $this->fields;
-//    }
-
-    if ($fields = $this->get_option()) {
-
-      foreach ($fields as $field_id => $field) {
-        $this->fields[$field_id] = apply_filters('wooccm_checkout_field_filter', $this->sanitize_field($field_id, $field, $fields), $field_id);
-      }
-
-      // Resort the fields by order
-      uasort($this->fields, array(__CLASS__, 'order_fields'));
-    }
-
-    return apply_filters('wooccm_' . $this->prefix . '_fields', $this->fields);
-  }
-
-  public function update_fields($fields) {
-
-    if (is_array($fields)) {
-
-      foreach ($fields as $field_id => $field) {
-        if (!array_key_exists('name', $field)) {
-          return false;
-        }
-      }
-
-      //reorder array based on ids
-      ksort($fields);
-
-      if ($this->update_option($fields)) {
-        return $fields;
-      }
-    }
-
-    return false;
-  }
-
-  public function delete_fields() {
-    $this->delete_option();
-  }
-
-  // Field
-  // ---------------------------------------------------------------------------
-
-  public function get_field($field_id) {
-
-    if ($fields = $this->get_fields()) {
-      if (isset($fields[$field_id])) {
-        return $fields[$field_id];
-//        $field = $fields[$field_id];
-//        return $this->sanitize_field($field_id, $field, $fields);
-      }
-    }
-  }
-
-  public function update_field($field_id, $field_data) {
-
-    $fields = $this->get_fields();
-
-    if (isset($fields[$field_id])) {
-
-      $field_data = $this->sanitize_field_data($field_data);
-
-      $fields[$field_id] = array_replace($fields[$field_id], $field_data);
-
-      if ($this->update_fields($fields)) {
-        return $fields[$field_id];
-      }
-    }
-
-    return false;
-  }
-
-  public function add_field($field_data) {
-
-    $fields = $this->get_fields();
-
-    $field_id = $this->get_next_id($fields);
-
-    $field_data = $this->sanitize_field_data($field_data);
-
-    $field_data = $this->sanitize_field($field_id, $field_data, $fields);
-
-    $field_data = wp_parse_args($field_data, $this->get_args());
-
-    $fields[] = $field_data;
-
-    if ($this->update_fields($fields)) {
-      return $field_data;
-    }
-
-    return false;
-  }
-
-  public function delete_field($field_id) {
-
-    $fields = $this->get_fields();
-
-    unset($fields[$field_id]);
-
-    if ($this->update_fields($fields)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Core
-  // -------------------------------------------------------------------------
-
-  protected function get_option($defaults = array()) {
-
-    if ($fields = get_option($this->option_name, false)) {
-      return $fields;
-    }
-
-    return $this->get_default_fields();
-  }
-
-  protected function update_option($fields) {
-
-    update_option($this->option_name, $fields);
-
-    return true;
-  }
-
-  protected function delete_option() {
-
-    delete_option($this->option_name);
-    add_option($this->option_name);
-
-    return false;
-  }
-
 }

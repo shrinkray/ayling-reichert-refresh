@@ -12,7 +12,7 @@
     <p class="form-field">
       <label><?php esc_html_e('Date format', 'woocommerce-checkout-manager'); ?></label>
       <input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> class="short" type="text" placeholder="dd-mm-yy" name="date_format" value="{{data.date_format}}">
-        <span class="description"><a href="https://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.</span>
+        <span class="description"><a target="_blank" href="https://wordpress.org/support/article/formatting-date-and-time/">Documentation on date and time formatting</a>.</span>
       <span class="description premium">(<?php esc_html_e('This is a premium feature', 'woocommerce-checkout-manager'); ?>)</span>
     </p>
   </div>
@@ -42,8 +42,8 @@
     <p class="form-field dimensions_field">
       <label><?php esc_html_e('Between days', 'woocommerce-checkout-manager'); ?></label>
       <span class="wrap">
-        <input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> style="width:48.1%" type="number" placeholder="-3" min="-365" max="365" class="short " name="date_limit_variable_min" value="{{data.date_limit_variable_min}}">
-          <input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> style="width:48.1%;margin: 0;" type="number" placeholder="3" min="-365" max="365" class="short" name="date_limit_variable_max" value="{{data.date_limit_variable_max}}">
+        <input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> style="width:48.1%" type="number" placeholder="-3" min="-365" max="365" class="short " name="date_limit_variable_min" value="{{data.date_limit_variable_min}}" required>
+          <input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> style="width:48.1%;margin: 0;" type="number" placeholder="3" min="-365" max="365" class="short" name="date_limit_variable_max" value="{{data.date_limit_variable_max}}" required>
       </span>
       <span class="description premium">(<?php esc_html_e('This is a premium feature', 'woocommerce-checkout-manager'); ?>)</span>
     </p>

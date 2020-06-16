@@ -5,12 +5,12 @@ require_once( ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.ph
 class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
 
   public $promote = array(
-      'wp-menu-icons',
+      'woocommerce-direct-checkout',
+      'perfect-woocommerce-brands',
       'wp-whatsapp-chat',
+      'wp-tiktok-feed',
       'insta-gallery',
       'quadmenu',
-      'woocommerce-checkout-manager',
-      'woocommerce-direct-checkout',
   );
 
   private function remove_plugins($plugins) {
@@ -66,7 +66,9 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
 
   public function get_plugins() {
 
-    $plugins = get_transient('ql_suggestions_plugins');
+    $tk = WOOCCM_PREFIX . '_suggestions_plugins';
+
+    $plugins = get_transient($tk);
 
     if ($plugins === false) {
 
@@ -82,7 +84,7 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
 
         $plugins = $this->remove_plugins($api->plugins);
 
-        set_transient('ql_suggestions_plugins', $plugins, 24 * HOUR_IN_SECONDS);
+        set_transient($tk, $plugins, 24 * HOUR_IN_SECONDS);
       }
     }
 

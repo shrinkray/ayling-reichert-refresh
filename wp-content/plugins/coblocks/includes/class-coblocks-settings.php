@@ -28,11 +28,15 @@ class CoBlocks_Settings {
 
 	/**
 	 * Registers the plugin.
+	 *
+	 * @return CoBlocks_Settings
 	 */
 	public static function register() {
 		if ( null === self::$instance ) {
 			self::$instance = new CoBlocks_Settings();
 		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -89,6 +93,18 @@ class CoBlocks_Settings {
 	 * @access public
 	 */
 	public function register_settings() {
+		register_setting(
+			'coblocks_layout_selector_controls_enabled',
+			'coblocks_layout_selector_controls_enabled',
+			array(
+				'type'              => 'boolean',
+				'description'       => __( 'Setting use to disable or enable layout selector controls across the site.', 'coblocks' ),
+				'sanitize_callback' => null,
+				'show_in_rest'      => true,
+				'default'           => true,
+			)
+		);
+
 		register_setting(
 			'coblocks_typography_controls_enabled',
 			'coblocks_typography_controls_enabled',

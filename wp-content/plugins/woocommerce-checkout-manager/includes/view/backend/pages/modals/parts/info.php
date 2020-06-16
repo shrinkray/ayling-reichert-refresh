@@ -45,7 +45,7 @@
       <# if ( data.parent != undefined && _.contains(<?php echo json_encode($option); ?>, data.parent.type) && _.isObject(data.parent.options)) { #>
       <select class="wooccm-enhanced-select" name="conditional_parent_value">
         <# _.each(data.parent.options, function (option, index) { #>
-        <option <# if ( index == data.conditional_parent_value ) { #>selected="selected"<# } #> value="{{index}}">{{option.label}}</option>
+        <option <# if ( index == data.conditional_parent_value ) { #>selected="selected"<# } #> value="{{option.label}}">{{option.label}}</option>
         <# }); #>
       </select>
       <# } else if( data.parent != undefined && data.parent.type == 'checkbox' ) { #>

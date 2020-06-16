@@ -3,8 +3,8 @@ Contributors: britner
 Tags: gutenberg, blocks, page builder, google fonts, dual buttons, svg icons, editor width,
 Donate link: https://www.kadencewp.com/about-us/
 Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 1.7.17
+Tested up to: 5.4.1
+Stable tag: 1.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,77 @@ Install the plugin into the `/wp-content/plugins/` folder, and activate it.
 6. Editor Width settings inside Gutenberg
 
 == Changelog ==
+
+= 1.8.5 =
+* Fix: Update not showing.
+
+= 1.8.4 =
+* Fix: issue with icon list block.
+* Update: Padding Control for row layout block.
+* Update: Copy Styles in infobox.
+
+= 1.8.3 =
+* Update: Fix issue in safari not being able to edit testimonials.
+* Update: Tweak js for accordion inner page link.
+* Fix: Issue with table of contents plus plugin.
+* Update: When switching media in infor box try to keep the same media size settings.
+
+= 1.8.2 =
+* Update: New toggle for row inner content to follow theme settings.
+* Update: WPML intergration.
+* Update: Allow row defaults to use theme width.
+* Update: Allow padding unit setting in row defaults.
+* Fix: Accordion issue with margin.
+* Fix: Accordion issue when linking to custom anchor.
+* Fix: Testimonial issue with boxshadow cleared.
+
+= 1.8.1 =
+* Update: Few tweaks for Gallery Block CSS
+* Update: Allow galley carousel max height to go to 800px.
+* Update: Fix issue with wordpress 5.3 and heading block.
+* Add: Nouce verify to false by default to form block. ( this prevents caching issues ).
+* Update: Gallery default options - Image thumbnail size, Image link size, Link type
+
+= 1.8.0 =
+* Add: new inline color selector to Advanced Heading Block.
+* Add: support for color classes in Advanced Heading Block
+* Add: new text shadow options to Advanced Heading Block
+* Add: tablet and mobile text alignment to Advanced Heading Block
+* Add: FAQ schema option to accordion.
+* Add: tablet and mobile text alignment to Icon Block
+* Fix: Tablet Collapse with row layout bug
+* Fix: Admin issue with gallery slider overflowing on smaller screens.
+* Fix: Custom icon issue in tabs.
+* Fix: Single column testimonial block spacing issue.
+* Update: Form Block WPML support.
+
+= 1.7.21 =
+* Fix: CSS Box Shadow issue on buttons.
+* Add: more link controls for infobox learn more.
+* Fix: Accordion not showing intial open options.
+* Fix: Accordion validator issue.
+
+= 1.7.20 =
+* Update: Declare 5.4 support.
+* Fix: CSS issue with some row vertical alignment settings.
+* Fix: Issue with info box icon border on mobile when switched to above.
+* Update: Button Video Popup, none jQuery lightbox, better handling of different youtube urls including nocookie.
+
+= 1.7.19 =
+* Add: skip-lazy class to carousel images to fix lazy load issue.
+* Fix: CSS for gutenberg updates.
+* Fix: CSS for lightbox in some situations.
+* Fix: Issue with infobox image width and height not getting set.
+* Add: option to set info box image size as a default.
+* Add: option to force hover effect to always so for gallery on mobile.
+* Add: Filter to remove Editor Width. ( More and more themes are doing better at handling this so it is going to be depreciated )
+
+= 1.7.18 =
+* Update Css to prevent issue with some settings conflict.
+* Update: Gallery Slider js within accordion not rendering correclty.
+* Add: Download option to advanced button block. Thanks @chris071182
+* Fix: Column Vertical Spacing when order reversed for mobile. Thanks @andreas-wpk
+* Fix: Issue with info box maxWidth not showing in admin after reload.
 
 = 1.7.17 =
 * Clean up editor column padding for Gutenberg 7.3

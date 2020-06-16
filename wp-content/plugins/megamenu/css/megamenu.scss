@@ -16,7 +16,8 @@
 #{$wrap} #{$menu} li.mega-menu-item,
 #{$wrap} #{$menu} li.mega-menu-row,
 #{$wrap} #{$menu} li.mega-menu-column,
-#{$wrap} #{$menu} a.mega-menu-link {
+#{$wrap} #{$menu} a.mega-menu-link,
+#{$wrap} #{$menu} span.mega-menu-badge {
     transition: none;
     @include border-radius(0, 0, 0, 0);
     @include box-shadow(none);
@@ -300,7 +301,7 @@
             display: block;
         }
 
-        @for $cols from 1 through 4 {
+        @for $cols from 1 through 6 {
             li.mega-menu-item.mega-menu-megamenu ul.mega-sub-menu li.mega-#{$cols}-columns > ul.mega-sub-menu > li.mega-menu-item {
                 float: left;
                 width: (100% / $cols);
@@ -582,7 +583,7 @@
             }
 
             @include desktop {
-                @for $of from 1 through 9 {
+                @for $of from 1 through 12 {
                     @for $cols from 1 through $of {
                         li.mega-menu-columns-#{$cols}-of-#{$of} {
                             width: (100% / $of) * $cols;
@@ -669,6 +670,10 @@
                     font-weight: $panel_second_level_font_weight_hover;
                     text-decoration: $panel_second_level_text_decoration_hover;
                     @include background($panel_second_level_background_hover_from, $panel_second_level_background_hover_to);
+
+                    > span.mega-title-below {
+                        text-decoration: $panel_second_level_text_decoration_hover;
+                    }
                 }
 
                 li.mega-menu-item {
@@ -982,45 +987,8 @@
 
         // arrows
         @include desktop {
-            &.mega-menu-vertical {
-                li.mega-align-bottom-right.mega-menu-item-has-children,
-                li.mega-align-bottom-right.mega-menu-flyout li.mega-menu-item-has-children {
-                    > a.mega-menu-link > span.mega-indicator {
-                        float: right;
-
-                        &:after {
-                            content: $arrow_right;
-                            margin: 0;
-                        }
-                    }
-                }
-
-                li.mega-align-bottom-left.mega-menu-item-has-children,
-                li.mega-align-bottom-left.mega-menu-flyout li.mega-menu-item-has-children {
-                    > a.mega-menu-link > span.mega-indicator {
-                        float: left;
-
-                        &:after {
-                            content: $arrow_left;
-                            margin: 0;
-                        }
-                    }
-                }
-            }
-
-            &.mega-menu-accordion {
-                // Arrows
-                > li.mega-menu-item-has-children > a.mega-menu-link > span.mega-indicator {
-                    float: right;
-                }
-                li.mega-menu-item-has-children.mega-toggle-on > a.mega-menu-link > span.mega-indicator:after {
-                    content: $arrow_up;
-                }
-            }
-
-            // Arrows
-            li.mega-menu-tabbed > ul.mega-sub-menu > li.mega-menu-item.mega-menu-item-has-children > a.mega-menu-link > span.mega-indicator:after {
-                content: $arrow_right;
+            &.mega-menu-accordion > li.mega-menu-item-has-children > a.mega-menu-link > span.mega-indicator {
+                float: right;
             }
         }
 

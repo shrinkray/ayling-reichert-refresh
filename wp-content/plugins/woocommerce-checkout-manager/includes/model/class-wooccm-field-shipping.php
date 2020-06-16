@@ -8,7 +8,7 @@ if (!class_exists('WOOCCM_Field_Shipping')) {
 
     protected static $_instance;
     protected $prefix = 'shipping';
-    protected $option_name = 'wooccm_shipping';
+    protected $table = 'wooccm_shipping';
     protected $defaults = array(
         'country',
         'first_name',

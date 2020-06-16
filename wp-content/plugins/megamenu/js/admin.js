@@ -68,9 +68,7 @@
                 data: {
                     action: "mm_get_lightbox_html",
                     _wpnonce: megamenu.nonce,
-                    menu_item_id: panel.settings.menu_item_id,
-                    menu_item_depth: panel.settings.menu_item_depth,
-                    menu_id: panel.settings.menu_id
+                    menu_item_id: panel.settings.menu_item_id
                 },
                 cache: false,
                 beforeSend: function() {
@@ -88,22 +86,30 @@
                     var json = $.parseJSON(response.data);
 
                     var header_container = $("<div />").addClass("mm_header_container");
-
-                    var title = $("<div />").addClass("mm_title").html(panel.settings.menu_item_title);
-
+                    var title = $("<div />").addClass("mm_title");
                     var saving = $("<div class='mm_saving'>" + megamenu.saving + "</div>");
 
                     header_container.append(title).append(saving);
 
+                    var active_tab = "mega_menu";
                     var tabs_container = $("<div class='mm_tab_container' />");
-
                     var content_container = $("<div class='mm_content_container' />");
 
-                    if ( json === null ) {
+                    if (json === null) {
                         content_container.html(response);
                     }
 
                     $.each(json, function(idx) {
+
+                        if (idx === "title") {
+                            title.html(this);
+                            return;
+                        }
+
+                        if (idx === "active_tab") {
+                            active_tab = (this);
+                            return;
+                        }
 
                         var content = $("<div />").addClass("mm_content").addClass(idx).html(this.content).hide();
                         
@@ -191,12 +197,6 @@
                             content.show();
                         });
 
-                        if ((panel.settings.menu_item_depth == 0 && idx == "mega_menu") ||
-                            (panel.settings.menu_item_depth > 0 && idx == "general_settings")) {
-                            content.show();
-                            tab.addClass("active");
-                        }
-
                         tabs_container.append(tab);
 
                         $(".mm_tab_horizontal", content).on("click", function() {
@@ -230,7 +230,9 @@
                         content_container.append(content);
                     });
 
-                    $("#cboxLoadedContent").addClass("depth-" + panel.settings.menu_item_depth).append(header_container).append(tabs_container).append(content_container);
+                    $(".mm_tab." + active_tab + ":first", tabs_container).click();
+
+                    $("#cboxLoadedContent").append(header_container).append(tabs_container).append(content_container);
                     $("#cboxLoadedContent").css({
                         "width": "100%",
                         "height": "100%",
@@ -1148,12 +1150,6 @@
 jQuery(function($) {
     "use strict";
 
-    $(".menu").on("click", ".megamenu_launch", function(e) {
-        e.preventDefault();
-
-        $(this).megaMenu();
-    });
-
     $("#megamenu_accordion").accordion({
         heightStyle: "content",
         collapsible: true,
@@ -1178,15 +1174,8 @@ jQuery(function($) {
     $("#menu-to-edit li.menu-item").each(function() {
 
         var menu_item = $(this);
-        var menu_id = $("input#menu").val();
-        var title = menu_item.find(".menu-item-title").text();
 
         menu_item.data("megamenu_has_button", "true");
-
-        // fix for Jupiter theme
-        if (!title) {
-            title = menu_item.find(".item-title").text();
-        }
 
         var id = parseInt(menu_item.attr("id").match(/[0-9]+/)[0], 10);
 
@@ -1200,13 +1189,8 @@ jQuery(function($) {
                     return;
                 }
 
-                var depth = menu_item.attr("class").match(/\menu-item-depth-(\d+)\b/)[1];
-
                 $(this).megaMenu({
-                    menu_item_id: id,
-                    menu_item_title: title,
-                    menu_item_depth: depth,
-                    menu_id: menu_id
+                    menu_item_id: id
                 });
             });
 

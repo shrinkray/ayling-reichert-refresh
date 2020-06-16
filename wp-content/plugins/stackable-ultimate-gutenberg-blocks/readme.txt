@@ -2,26 +2,29 @@
 Contributors: bfintal, gambitph, freemius
 Tags: blocks, gutenberg, gutenberg blocks, page builder, WordPress blocks
 Requires at least: 5.2
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 5.3
-Stable tag: 2.2.1
+Stable tag: 2.6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-An Amazing Block Library That Lets You Reimagine the Way You Use the WordPress Block Editor (Gutenberg).
+Stackable is a Library of Page Builder Gutenberg Blocks which will reimagine the way you use the WordPress Block Editor.
 
 == Description ==
 
 **Reimagine the Way You Use the WordPress Block Editor**
 
-[Stackable](https://wpstackable.com) is one of the first and most expansive block library made specially for the new WordPress Block Editor (Gutenberg). It adds essential custom blocks to Gutenberg’s arsenal to achieve a smooth page building experience. With its latest iteration, Stackable brings a suite of high quality blocks for page building, with precision design tools that let you build the perfect website and landing page that you want.
+[Stackable](https://wpstackable.com) is a block library that is one of the first, most expansive, and highly rated plugins made specially for the new WordPress Block Editor (Gutenberg).
 
-[youtube https://www.youtube.com/watch?v=m2I-pCYPezk]
+Stackable adds essential custom blocks to give you a true page builder experience inside the Block Editor. Stackable gives you a suite of high quality blocks, each with their own precise page builder options that let you build the perfect website and landing page that you envision.
+
+[youtube https://www.youtube.com/watch?v=idv-1cDz61g]
 
 With Stackable, you get:
 
-- 23 Quality Page Building Blocks for Gutenberg
-- 50+ Block Layouts and Pre-set Section / Block Designs that can be switched with just one click
+- 26 Quality Page Building Blocks for Gutenberg
+- 50+ Block Layouts and 70+ Pre-set Section / Block Designs that can be switched with just one click
+- Page Builder-like tabbed options
 - Advanced and diverse web design options,
 - Responsive customization controls to precisely design your blocks for tablet and mobile visitors
 - Built-in Section / Background controls for the easiest way to build page sections using only a single block
@@ -68,7 +71,7 @@ Stackable now offers the most advanced block design controls with the widest ran
 
 All of Stackable's powerful options are easily managed in an intuitive UI for a smooth block editing experience. This is achieved by our three-tab configuration, easy toggle on/off for block elements, and streamlined settings.
 
-## A Truly Useful Block Library with 23 Quality Gutenberg Blocks
+## A Truly Useful Block Library with 26 Quality Gutenberg Blocks
 
 We’ve come up with page building blocks that are all functional and stunning. We’ve put in the design effort so you can enjoy a truly usable and quality block collection for the new WordPress block editor (Gutenberg).
 
@@ -92,7 +95,10 @@ Try out a [live demo of Stackable Premium](https://demo.wpstackable.com/v2/)
 
 ## Stackable Blocks
 
+- Advanced Columns & Grid Block — [View Block](http://wpstackable.com/columns-block)
 - Container Block — [View Block](https://wpstackable.com/container-block/)
+- Advanced Heading Block - [View Block](https://wpstackable.com/advanced-heading-block/)
+- Advanced Text Block - [View Block](https://wpstackable.com/advanced-text-block/)
 - Separator Block — [View Block](https://wpstackable.com/separator-block/)
 - Posts Block — [View Block](https://wpstackable.com/blog-posts-block/)
 - Feature Grid Block — [View Block](https://wpstackable.com/feature-grid-block/)
@@ -118,6 +124,10 @@ Try out a [live demo of Stackable Premium](https://demo.wpstackable.com/v2/)
 
 ### News Article Updates
 
+- [v2.6 New Advanced Blocks and Load More Blog Posts Button](https://wpstackable.com/blog/new-advanced-blocks-and-load-more-blog-posts-button)
+- [v2.5 Better Onboarding for First Time Users](https://wpstackable.com/blog/better-onboarding-for-first-time-users)
+- [v2.4 Introducing the Advanced Columns & Grid Block](https://wpstackable.com/blog/introducing-the-advanced-columns-and-grid-block/)
+- [v2.3 Introducing the Design Library and New Block Designs](https://wpstackable.com/blog/introducing-the-design-library-and-new-block-designs/)
 - [v2.2 Welcome Video, Better Separators and Auto-Block Recovery](https://wpstackable.com/blog/welcome-video-better-separators-and-auto-block-recovery/)
 - [v2.1 Help Video Snippets and Auto-Expand Settings](https://wpstackable.com/blog/help-video-snippets-auto-expand-settings/)
 - [v2.0 Version 2 is Out!](https://wpstackable.com/blog/version-2-is-out)
@@ -164,15 +174,92 @@ Nope. Stackable only works with Gutenberg, the new WordPress editor.
 
 == Screenshots ==
 
-1. Feature Grid block
-2. Call to Action Block
-3. Icon List block
-4. Image Box block
-5. Pricing Box block
+1. How Stackable Page Builder Blocks for Gutenberg Works
+2. Easily switch between different Pre-Set Block Designs in our Design Library / Templates
+3. Tweak the spacing and alignments of your blocks
+4. Advanced Columns and Grid block
+5. Create more elaborate background effects for your content
 
 == Upgrade Notice ==
 
 == Changelog ==
+
+= 2.6.1 =
+* Fixed: Some buttons aligning to center
+* Fixed: Disabled fixed backgrounds in iOS due to image zooming issue in iOS
+* Fixed: Ensured bottom margin for text paragraphs in Advanced Text block
+* Fixed: Removed unused responsive controls for Advanced Text block columns
+* Fixed: Native table columns jump around
+* Fixed: Video popup block opens after dragging in mobile
+
+= 2.6.0 =
+[New Advanced Blocks and Load More Blog Posts Button](https://wpstackable.com/blog/new-advanced-blocks-and-load-more-blog-posts-button)
+
+* New: Advanced Heading Block
+* New: Advanced Text Block
+* New: Load More option for Blog Posts Block (Premium)
+* Fixed: Added missing playsinline to background videos, there's a chance they do not play on mobile
+* Fixed: Accordion aria-expanded was inverse
+* Fixed: Removed obsolete design code
+* Fixed: Don't show hidden blocks in the Design Library
+* Fixed: Container gets left and right paddings on mobile. If upgrading, you'll need to remove the custom class "ugb-container--width-small" in the advanced tab.
+
+= 2.5.1 =
+* Fixed: Images with paths containing "mp4", "webm" or "ogg" are wrongly detected as videos
+
+= 2.5.0 =
+[Better Onboarding for First Time Users](https://wpstackable.com/blog/better-onboarding-for-first-time-users)
+
+* New: Better onboarding for first time users
+* New: Updated admin page styling
+* New: Added help tooltip videos for "No padding", "Column Arrangemnet", "Column Widths" and "Column Row Gap"
+* New: Added ability to turn help tooltips off
+* Fixed: Turning on "no paddings" will now enable the block background
+* Fixed: Added missing blocks in the block settings area
+
+= 2.4.0 =
+[Introducing the Advanced Columns & Grid Block](https://wpstackable.com/blog/introducing-the-advanced-columns-and-grid-block/)
+
+* New: Advanced Columns & Grid Block
+* Fixed: Inspector may get a horizontal scrollbar
+* Fixed: Initial position of range controls now position correctly again
+* Fixed: Container Advanced > Block Spacing > Max. Content Width also affects nested blocks
+* Fixed: Wide widths with block background turned on would also make their nested blocks go wide in the editor
+
+= 2.3.2 =
+* Fixed: WordPress 5.4 compatibility
+* Fixed: Mobile responsiveness of the Horizontal layout of the Feature Grid block
+
+= 2.3.1 =
+* Fixed: Button text hover color styling issue
+
+= 2.3.0 =
+[Introducing the Design Library and New Block Designs](https://wpstackable.com/blog/introducing-the-design-library-and-new-block-designs/)
+
+* New: Design Library
+* New: No paddings option in the Block Background area
+* Change: Added note that block contents won't change when switching designs
+* Fixed: You can now add dynamically changing blocks inside Accordion blocks (e.g. blocks that change height)
+* Fixed: Removed unwanted margins on the Separator block present in some themes
+* Fixed: Header block's title won't follow alignment
+* Fixed: Name color won't change in some Team Member block layouts
+* Fixed: Number alignment of the Number Box block not followed in smaller screens
+* Fixed: Number color of the Number Box block not working
+* Fixed: Border radius being applied incorrectly in some layouts in Team Member blocks
+* Fixed: Better auto-block recovery methods
+* Fixed: Shadow is now removed in plain Container block layouts
+* Fixed: PHP 7.4 parenthesis ternary experssion warning
+* Fixed: Button center alignment in IE11
+* Fixed: Columns now display properly in IE11
+* Fixed: Default colors now show properly in IE11
+* Fixed: Corrected border radius to show only when not in full-width for the CTA block
+* Fixed: Some text colors not showing correctly in some Blog Posts block layouts
+* Fixed: Image now has the correct width in Team Member blocks in small screens
+* Fixed: Responsiveness of some layouts of the Feature block
+* Fixed: Don't show empty advanced panels in the Count Up block
+* Fixed: Notification block button sometimes won't change colors
+* Fixed: Responsiveness issues in horizontal layout in Posts block
+* Fixed: Responsiveness issues in horizontal layout in Card block
 
 = 2.2.1 =
 
