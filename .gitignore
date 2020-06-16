@@ -13,6 +13,8 @@ Thumbs.db
 wp-config.php
 temp-write-test-*
 wp-content/uploads/
+wp-content/plugins/
+wp-content/mu-plugins/
 
 wp-content/blogs.dir/
 wp-content/wp-rocket-config
@@ -23,6 +25,7 @@ wp-content/wp-cache-config.php
 wp-content/cache/*
 wp-content/cache/supercache/*
 wp-content/uploads/wp-migrate-db/*
+
 
 
 #host specific
@@ -113,6 +116,11 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/themes/index.php
 /wp-content/plugins/index.php
 /wp-content/plugins/akismet*
+
+/wp-content/themes/genesis
+/wp-content/themes/genesis-theme/language
+/wp-content/themes/genesis-theme/dist
+/wp-content/themes/genesis-theme/assets
 
 /wp-content/themes/wordpress-blank*
 /wp-content/themes/wordpress-blank/*
