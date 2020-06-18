@@ -38,6 +38,7 @@ wp-content/cache*
 
 # plugins not required to track versions for theme
 /wp-content/plugins/
+/wp-content/plugins*
 wp-content/plugins/wp-migrate-db-pro-theme-plugin-files*
 wp-content/plugins/wp-migrate-db-pro-media-files*
 wp-content/plugins/wp-migrate-db-pro*
