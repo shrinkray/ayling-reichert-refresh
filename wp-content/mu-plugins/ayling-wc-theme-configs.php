@@ -1,7 +1,9 @@
+<?php
 /*
-Plugin Name: Ayling Theme Configs
-Description: Genesis/WooCommerce theme cofigs 
-Author: Greg Miller
-Version: 1.0
-Author URI: htt
+	Plugin Name: Ayling Reichert Theme Configs
+	Description: Theme Configs
+    Author: Greg Miller
+    Version: 1.0
+    Author URI: https://gregmiller.io
 */
+
