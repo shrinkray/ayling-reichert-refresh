@@ -14,7 +14,7 @@ Thumbs.db
 temp-write-test-*
 wp-content/uploads/
 wp-content/plugins/
-wp-content/mu-plugins/
+#wp-content/mu-plugins/
 
 wp-content/blogs.dir/
 wp-content/wp-rocket-config
