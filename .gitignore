@@ -122,8 +122,8 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/themes/genesis-theme/dist
 /wp-content/themes/genesis-theme/assets
 
-/wp-content/themes/wordpress-blank*
-/wp-content/themes/wordpress-blank/*
+/wp-content/themes/wordpress-blank
+/wp-content/themes/ar-mods
 
 dist
 node_modules
