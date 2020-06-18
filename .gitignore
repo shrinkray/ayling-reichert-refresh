@@ -37,6 +37,7 @@ wp-content/object-cache.php
 wp-content/cache*
 
 # plugins not required to track versions for theme
+/wp-content/plugins/
 wp-content/plugins/wp-migrate-db-pro-theme-plugin-files*
 wp-content/plugins/wp-migrate-db-pro-media-files*
 wp-content/plugins/wp-migrate-db-pro*
@@ -112,18 +113,19 @@ wp-content/mu-plugins/wp-migrate-db-pro-compatibility.php
 /wp-content/themes/twentyeighteen
 /wp-content/themes/twentynineteen
 /wp-content/themes/twentytwenty
+/wp-content/themes/wordpress-blank/
+/wp-content/themes/ar-mods/
 
 /wp-content/themes/index.php
-/wp-content/plugins
-/wp-content/plugins/akismet*
 
-/wp-content/themes/genesis
-/wp-content/themes/genesis-theme/language
-/wp-content/themes/genesis-theme/dist
-/wp-content/themes/genesis-theme/assets
+/wp-content/plugins/akismet/
 
-/wp-content/themes/wordpress-blank
-/wp-content/themes/ar-mods
+/wp-content/themes/genesis/
+/wp-content/themes/genesis-theme/language/
+/wp-content/themes/genesis-theme/dist/
+/wp-content/themes/genesis-theme/assets/
+
+
 
 dist
 node_modules
